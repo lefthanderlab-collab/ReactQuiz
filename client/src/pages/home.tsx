@@ -1,16 +1,65 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Video } from "@shared/schema";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 import ContactModal from "../components/contact-modal";
 
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+  
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
   const { data: videos = [], isLoading } = useQuery<Video[]>({
     queryKey: ["/api/videos"],
   });
+
+  const contactMutation = useMutation({
+    mutationFn: (formData: { name: string; email: string; message: string }) =>
+      apiRequest("/api/contacts", {
+        method: "POST",
+        body: JSON.stringify(formData),
+      }),
+    onSuccess: () => {
+      toast({
+        title: "메시지 전송 완료",
+        description: "메시지가 성공적으로 전송되었습니다. 빠른 시일 내에 답변드리겠습니다.",
+      });
+      setContactForm({ name: "", email: "", message: "" });
+      queryClient.invalidateQueries({ queryKey: ["/api/contacts"] });
+    },
+    onError: () => {
+      toast({
+        title: "전송 실패",
+        description: "메시지 전송에 실패했습니다. 다시 시도해주세요.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactForm.name || !contactForm.email || !contactForm.message) {
+      toast({
+        title: "입력 오류",
+        description: "모든 필드를 입력해주세요.",
+        variant: "destructive",
+      });
+      return;
+    }
+    contactMutation.mutate(contactForm);
+  };
 
   const portfolioImages = videos; // Show all videos in grid
 
@@ -156,31 +205,89 @@ export default function Home() {
 
         {/* Contact Section */}
         <div className="glass-surface rounded-3xl p-8 mb-8">
-          <div className="text-center">
+          <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">연락하기</h2>
             <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
               프로젝트 문의나 협업 제안이 있으시면 언제든지 연락주세요.<br/>
               창의적인 영상 제작을 통해 브랜드의 스토리를 함께 만들어가겠습니다.
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button
-                onClick={() => setShowContactForm(true)}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 rounded-lg text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
-              >
-                메시지 보내기
-              </Button>
-              
-              <div className="flex flex-col sm:flex-row gap-4 text-gray-600">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm">Email: oneglass@example.com</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm">Phone: +82 10-1234-5678</span>
-                </div>
+          </div>
+          
+          {/* Contact Form */}
+          <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  이름 *
+                </label>
+                <Input
+                  type="text"
+                  value={contactForm.name}
+                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                  placeholder="이름을 입력해주세요"
+                  className="w-full"
+                  required
+                />
               </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  이메일 *
+                </label>
+                <Input
+                  type="email"
+                  value={contactForm.email}
+                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                  placeholder="이메일을 입력해주세요"
+                  className="w-full"
+                  required
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                메시지 *
+              </label>
+              <Textarea
+                value={contactForm.message}
+                onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                placeholder="프로젝트에 대한 내용이나 문의사항을 자세히 적어주세요"
+                className="w-full h-32 resize-none"
+                required
+              />
+            </div>
+            
+            <div className="text-center">
+              <Button
+                type="submit"
+                disabled={contactMutation.isPending}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-10 py-4 rounded-full text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {contactMutation.isPending ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    전송 중...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5 mr-2" />
+                    메시지 보내기
+                  </>
+                )}
+              </Button>
+            </div>
+          </form>
+          
+          {/* Contact Info */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 pt-8 border-t border-gray-200">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span className="text-sm text-gray-600">Email: oneglass@example.com</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+              <span className="text-sm text-gray-600">Phone: +82 10-1234-5678</span>
             </div>
           </div>
         </div>
