@@ -20,7 +20,11 @@ Preferred communication style: Simple, everyday language.
   - Korean hero message: "창의적인 영상으로 스토리를 전달합니다"
   - Korean description: "브랜드의 본질을 담은 영상 콘텐츠를 통해 감동과 메시지를 전달하는 비디오 디자이너입니다"
   - Korean contact form and services descriptions
-- **Enhanced Video Display**: Doubled video sizes for better prominence - main carousel videos now 520px wide x 320px tall
+- **Major Layout Restructure**: Completely redesigned homepage to match reference design with portfolio videos as main focus
+  - Videos now displayed in 3x3 grid layout within white container
+  - Profile moved to top-left position of grid as compact card
+  - Removed carousel navigation in favor of static grid display
+  - Enhanced video prominence with larger aspect ratios and better visual hierarchy
 - **Color Scheme Update**: Changed from red gradient to blue/purple gradient throughout the application
 - **Updated Services Section**: Changed to film-focused services:
   - Film Direction (영상 연출)
@@ -30,6 +34,7 @@ Preferred communication style: Simple, everyday language.
 - **Korean Contact Form**: Fully localized contact modal with Korean labels and messages
 - **Navigation Integration**: Connected navigation buttons between pages with blue hover states
 - **Fixed Technical Issues**: Resolved ContactModal accessibility warnings and import path issues
+- **Design Reference Implementation**: Restructured layout based on provided reference image to emphasize portfolio content over profile information
 
 ## System Architecture
 
