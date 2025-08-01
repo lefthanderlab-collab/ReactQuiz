@@ -20,21 +20,28 @@ Preferred communication style: Simple, everyday language.
   - Korean hero message: "창의적인 영상으로 스토리를 전달합니다"
   - Korean description: "브랜드의 본질을 담은 영상 콘텐츠를 통해 감동과 메시지를 전달하는 비디오 디자이너입니다"
   - Korean contact form and services descriptions
-- **Major Layout Restructure**: Completely redesigned homepage to match reference design with portfolio videos as main focus
-  - Videos now displayed in 3x3 grid layout within white container
-  - Profile moved to top-left position of grid as compact card
-  - Removed carousel navigation in favor of static grid display
-  - Enhanced video prominence with larger aspect ratios and better visual hierarchy
+- **Apple WWDC25-Inspired Design System (Latest Update)**: Implemented premium glass morphism design
+  - Gradient mesh background with subtle color gradients
+  - Glass morphism effects with backdrop blur and inner highlights
+  - Premium surface design with sophisticated transparency layers
+  - Enhanced video cards with Apple-style glass effects and smooth hover animations
+  - Navigation glass with translucent navigation bars
+  - Profile card glass combining gradients with glass effects
+- **Major Layout Restructure**: Completely redesigned homepage layout based on user reference
+  - **Profile Introduction Section**: Dedicated section at top with larger profile image and detailed intro
+  - **2-per-Row Video Layout**: Optimized video grid displaying 2 videos per row for better viewing ratios
+  - **Enhanced Video Cards**: Larger video containers with improved aspect ratios and detailed descriptions
+  - **Separated Content Areas**: Clear distinction between profile intro and portfolio showcase
+  - **Improved Typography**: Larger, more readable text with better hierarchy
 - **Color Scheme Update**: Changed from red gradient to blue/purple gradient throughout the application
 - **Updated Services Section**: Changed to film-focused services:
   - Film Direction (영상 연출)
   - Video Production (영상 제작)
   - Brand Storytelling (브랜드 스토리텔링)
-- **Enhanced Portfolio Page**: Dedicated page with larger video grid, category filtering, and blue/purple theme
+- **Enhanced Portfolio Page**: Dedicated page with larger video grid, category filtering, and glass morphism theme
 - **Korean Contact Form**: Fully localized contact modal with Korean labels and messages
 - **Navigation Integration**: Connected navigation buttons between pages with blue hover states
 - **Fixed Technical Issues**: Resolved ContactModal accessibility warnings and import path issues
-- **Design Reference Implementation**: Restructured layout based on provided reference image to emphasize portfolio content over profile information
 
 ## System Architecture
 

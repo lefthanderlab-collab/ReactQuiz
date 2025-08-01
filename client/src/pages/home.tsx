@@ -55,32 +55,41 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* Main Content Layout with Profile and Video Grid */}
+        {/* Profile Introduction Section */}
         <div className="glass-surface rounded-3xl p-8 mb-8">
-          {/* Header with Title */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">포트폴리오</h1>
-          </div>
-          
-          {/* Video Grid with Profile */}
-          <div className="grid grid-cols-3 gap-6">
-            {/* Profile Card - Top Left */}
-            <div className="profile-card-glass rounded-2xl p-6 flex flex-col items-center justify-center text-white">
-              <div className="w-20 h-20 rounded-full overflow-hidden mb-4 border-3 border-white/30">
-                <img 
-                  src="https://images.unsplash.com/photo-1494790108755-2616b612b1a5?w=150&h=150&fit=crop&crop=face" 
-                  alt="oneglass profile" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h2 className="text-lg font-bold mb-1">oneglass</h2>
-              <p className="text-sm text-white/80 text-center leading-tight">
-                창의적인 영상으로<br/>스토리를 전달합니다
-              </p>
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            {/* Profile Image */}
+            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white/30 shadow-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1494790108755-2616b612b1a5?w=200&h=200&fit=crop&crop=face" 
+                alt="oneglass 프로필" 
+                className="w-full h-full object-cover"
+              />
             </div>
             
-            {/* Video Cards */}
-            {portfolioImages.slice(0, 8).map((video, index) => (
+            {/* Profile Content */}
+            <div className="flex-1 text-center md:text-left">
+              <h1 className="text-4xl font-bold text-gray-800 mb-2">oneglass</h1>
+              <p className="text-xl text-blue-600 mb-4">Film Director & Video Creator</p>
+              <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">
+                창의적인 영상으로 스토리를 전달합니다. 브랜드의 본질을 담은 영상 콘텐츠를 통해 
+                감동과 메시지를 전달하는 비디오 디자이너입니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Portfolio Section */}
+        <div className="glass-surface rounded-3xl p-8 mb-8">
+          {/* Section Header */}
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">Featured Portfolio</h2>
+            <p className="text-gray-600 text-lg">최신 영상 작품들을 확인해보세요</p>
+          </div>
+          
+          {/* Video Grid - 2 per row with optimal ratio */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {portfolioImages.slice(0, 6).map((video, index) => (
               <div key={video.id} className="video-card-glass rounded-2xl overflow-hidden group">
                 <div className="aspect-video relative">
                   <iframe
@@ -91,25 +100,31 @@ export default function Home() {
                     allowFullScreen
                     title={video.title}
                   ></iframe>
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-300"></div>
                 </div>
-                <div className="p-4">
-                  <h3 className="text-sm font-semibold text-gray-800 mb-1 truncate">{video.title}</h3>
-                  <span className="inline-block px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                    {video.category}
-                  </span>
+                <div className="p-6">
+                  <h3 className="font-semibold text-gray-800 mb-2 text-lg">
+                    {video.title}
+                  </h3>
+                  <p className="text-gray-600 line-clamp-2 mb-3">
+                    {video.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
+                      {video.category}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
           
-          {/* View All Button */}
-          <div className="text-center mt-8">
+          {/* See More Button */}
+          <div className="text-center mt-10">
             <Link href="/portfolio">
               <Button 
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-3 rounded-lg text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-10 py-4 rounded-full text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
               >
-                전체보기 →
+                전체 포트폴리오 보기 →
               </Button>
             </Link>
           </div>
