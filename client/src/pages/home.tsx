@@ -61,9 +61,9 @@ export default function Home() {
             {/* Profile Image */}
             <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white/30 shadow-lg">
               <img 
-                src="https://images.unsplash.com/photo-1494790108755-2616b612b1a5?w=200&h=200&fit=crop&crop=face" 
+                src="@assets/KakaoTalk_20250801_205908964_1754049581015.jpg" 
                 alt="oneglass 프로필" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
               />
             </div>
             
