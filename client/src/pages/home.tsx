@@ -85,34 +85,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen gradient-mesh">
-      {/* Fixed Header Navigation */}
-      <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 nav-glass rounded-2xl px-8 py-4 w-full max-w-4xl">
-        <div className="flex justify-center space-x-8">
-          <button 
-            onClick={() => setShowContactForm(true)}
-            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
-          >
-            연락하기
-          </button>
-          <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-            소개
-          </button>
-          <button className="text-blue-600 font-medium">
-            홈
-          </button>
-          <Link href="/portfolio">
-            <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-              포트폴리오
-            </button>
-          </Link>
-          <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-            서비스
-          </button>
-        </div>
-      </nav>
-
       {/* Main Container */}
-      <div className="max-w-7xl mx-auto px-6 py-8 pt-24">
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
 
         {/* Profile Introduction Section */}
