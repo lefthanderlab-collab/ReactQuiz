@@ -2,11 +2,25 @@
 
 ## Overview
 
-This is a full-stack motion graphics portfolio application built with React and Express. The application showcases video projects in an elegant grid layout with embedded Vimeo players, categorized by project type. Users can view featured projects on the homepage and contact the portfolio owner through a modal form. The application uses a modern tech stack with TypeScript, Tailwind CSS, and shadcn/ui components for a polished user experience.
+This is a full-stack motion graphics portfolio application built with React and Express. The application features a modern single-page design with a red gradient background, inspired by Turkish portfolio websites. It showcases video projects with embedded Vimeo players in a stylized layout with navigation, profile section, services, and portfolio preview. Users can view featured projects on the homepage, browse all projects on a dedicated portfolio page, and contact the portfolio owner through a modal form. The application uses a modern tech stack with TypeScript, Tailwind CSS, and shadcn/ui components.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+
+## Recent Changes (January 2025)
+
+- **Complete Design Overhaul**: Redesigned the application to match a Turkish portfolio website aesthetic with red gradient background and modern glass morphism effects
+- **New Homepage Layout**: 
+  - Header navigation with 5 menu items (İletişim, Hakkımda, Anasayfa, Portföyö, Hizmetler)
+  - Circular profile section with "MG" placeholder
+  - Hero section with Turkish/English mixed text
+  - Three service cards with glass morphism design
+  - Portfolio preview carousel with 3 visible videos
+  - "Tümünü Gör" button linking to full portfolio
+- **New Portfolio Page**: Dedicated page showing all projects with category filtering
+- **Navigation Integration**: Connected navigation buttons between pages
+- **Fixed Technical Issues**: Resolved ContactModal accessibility warnings and import path issues
 
 ## System Architecture
 

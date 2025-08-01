@@ -76,7 +76,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-describedby="contact-form-description">
         <DialogHeader>
           <div className="flex items-center justify-between">
             <DialogTitle className="text-xl font-semibold text-gray-900">
@@ -91,6 +91,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               <X className="h-4 w-4" />
             </Button>
           </div>
+          <p id="contact-form-description" className="text-sm text-gray-600 mt-2">
+            프로젝트 문의나 협업 제안을 남겨주시면 빠른 시일 내에 연락드리겠습니다.
+          </p>
         </DialogHeader>
 
         <Form {...form}>
