@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Video } from "@shared/schema";
-import { MessageCircle, Send } from "lucide-react";
+import { MessageCircle, Send, Instagram, Youtube, Mail, Phone } from "lucide-react";
+import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,11 +27,19 @@ export default function Home() {
   });
 
   const contactMutation = useMutation({
-    mutationFn: (formData: { name: string; email: string; message: string }) =>
-      apiRequest("/api/contacts", {
+    mutationFn: async (formData: { name: string; email: string; message: string }) => {
+      const response = await fetch("/api/contacts", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(formData),
-      }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+      return response.json();
+    },
     onSuccess: () => {
       toast({
         title: "메시지 전송 완료",
@@ -76,33 +85,35 @@ export default function Home() {
 
   return (
     <div className="min-h-screen gradient-mesh">
+      {/* Fixed Header Navigation */}
+      <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 nav-glass rounded-2xl px-8 py-4 w-full max-w-4xl">
+        <div className="flex justify-center space-x-8">
+          <button 
+            onClick={() => setShowContactForm(true)}
+            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+          >
+            연락하기
+          </button>
+          <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            소개
+          </button>
+          <button className="text-blue-600 font-medium">
+            홈
+          </button>
+          <Link href="/portfolio">
+            <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+              포트폴리오
+            </button>
+          </Link>
+          <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            서비스
+          </button>
+        </div>
+      </nav>
+
       {/* Main Container */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Header Navigation */}
-        <nav className="nav-glass rounded-2xl px-8 py-4 mb-12">
-          <div className="flex justify-center space-x-8">
-            <button 
-              onClick={() => setShowContactForm(true)}
-              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
-            >
-              연락하기
-            </button>
-            <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-              소개
-            </button>
-            <button className="text-blue-600 font-medium">
-              홈
-            </button>
-            <Link href="/portfolio">
-              <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                포트폴리오
-              </button>
-            </Link>
-            <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-              서비스
-            </button>
-          </div>
-        </nav>
+      <div className="max-w-7xl mx-auto px-6 py-8 pt-24">
+
 
         {/* Profile Introduction Section */}
         <div className="glass-surface rounded-3xl p-8 mb-8">
@@ -279,15 +290,68 @@ export default function Home() {
             </div>
           </form>
           
-          {/* Contact Info */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 pt-8 border-t border-gray-200">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Email: oneglass@example.com</span>
+          {/* Contact Info & Social Media */}
+          <div className="mt-8 pt-8 border-t border-gray-200">
+            {/* Contact Info */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-blue-500" />
+                <span className="text-sm text-gray-600">oneglass@example.com</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-purple-500" />
+                <span className="text-sm text-gray-600">+82 10-1234-5678</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Phone: +82 10-1234-5678</span>
+            
+            {/* Social Media Icons */}
+            <div className="flex justify-center items-center gap-4">
+              <span className="text-sm text-gray-600 mr-2">Follow me:</span>
+              
+              <a 
+                href="https://instagram.com/oneglass" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              
+              <a 
+                href="https://youtube.com/@oneglass" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200"
+              >
+                <Youtube className="w-5 h-5" />
+              </a>
+              
+              <a 
+                href="https://facebook.com/oneglass" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200"
+              >
+                <FaFacebookF className="w-4 h-4" />
+              </a>
+              
+              <a 
+                href="https://twitter.com/oneglass" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200"
+              >
+                <FaTwitter className="w-4 h-4" />
+              </a>
+              
+              <a 
+                href="https://linkedin.com/in/oneglass" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200"
+              >
+                <FaLinkedinIn className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
