@@ -26,41 +26,41 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p>포트폴리오를 불러오는 중...</p>
+          <p>Loading portfolio...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-400 to-red-600">
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600">
       {/* Main Container */}
-      <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header Navigation */}
         <nav className="bg-white/90 backdrop-blur-sm rounded-2xl px-8 py-4 mb-12 shadow-lg">
           <div className="flex justify-center space-x-8">
             <button 
               onClick={() => setShowContactForm(true)}
-              className="text-gray-700 hover:text-red-500 transition-colors font-medium"
+              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
             >
-              İletişim
+              Contact
             </button>
-            <button className="text-gray-700 hover:text-red-500 transition-colors font-medium">
-              Hakkımda
+            <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+              About
             </button>
-            <button className="text-red-500 font-medium">
-              Anasayfa
+            <button className="text-blue-600 font-medium">
+              Home
             </button>
             <Link href="/portfolio">
-              <button className="text-gray-700 hover:text-red-500 transition-colors font-medium">
-                Portföyö
+              <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                Portfolio
               </button>
             </Link>
-            <button className="text-gray-700 hover:text-red-500 transition-colors font-medium">
-              Hizmetler
+            <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+              Services
             </button>
           </div>
         </nav>
@@ -68,20 +68,20 @@ export default function Home() {
         {/* Profile Section */}
         <div className="text-center mb-16">
           <div className="relative inline-block mb-8">
-            <div className="w-32 h-32 rounded-full border-4 border-red-500 overflow-hidden mx-auto shadow-xl">
-              <div className="w-full h-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-white text-2xl font-bold">
+            <div className="w-32 h-32 rounded-full border-4 border-purple-400 overflow-hidden mx-auto shadow-xl">
+              <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
                 MG
               </div>
             </div>
           </div>
           
           <h1 className="text-4xl font-light text-white mb-4">
-            Merhaba, ben <span className="font-bold text-white">Motion Graphics</span> Uzmanı.
+            Hello, I'm a <span className="font-bold text-white">Motion Graphics</span> Designer.
           </h1>
           
           <p className="text-white/80 text-lg max-w-2xl mx-auto leading-relaxed">
-            Yaratıcı motion graphics ve görsel hikaye anlatımı ile markalara hayat veriyorum. 
-            Her projede benzersiz stil ve mesaj ile unutulmaz deneyimler yaratıyorum.
+            I bring brands to life through creative motion graphics and visual storytelling. 
+            Each project features unique style and messaging to create unforgettable experiences.
           </p>
         </div>
 
@@ -93,7 +93,7 @@ export default function Home() {
             </div>
             <h3 className="text-xl font-semibold mb-3">Motion Graphics</h3>
             <p className="text-white/80 text-sm leading-relaxed">
-              Profesyonel motion graphics tasarımları ile markanızın hikayesini görsel olarak anlatıyorum.
+              Professional motion graphics designs that visually tell your brand's story with creativity and impact.
             </p>
           </div>
 
@@ -103,7 +103,7 @@ export default function Home() {
             </div>
             <h3 className="text-xl font-semibold mb-3">Video Editing</h3>
             <p className="text-white/80 text-sm leading-relaxed">
-              Kurumsal videolar, tanıtım filmleri ve sosyal medya içerikleri için profesyonel video düzenleme.
+              Professional video editing for corporate videos, promotional films, and social media content.
             </p>
           </div>
 
@@ -113,18 +113,18 @@ export default function Home() {
             </div>
             <h3 className="text-xl font-semibold mb-3">Brand Identity</h3>
             <p className="text-white/80 text-sm leading-relaxed">
-              Markanızın görsel kimliğini güçlendiren yaratıcı animasyon ve grafik tasarım çözümleri.
+              Creative animation and graphic design solutions that strengthen your brand's visual identity.
             </p>
           </div>
         </div>
 
         {/* Portfolio Preview Section */}
         <div className="relative mb-8">
-          <div className="flex justify-center space-x-4 overflow-hidden">
+          <div className="flex justify-center space-x-6 overflow-hidden">
             {portfolioImages.slice(currentSlideIndex, currentSlideIndex + 3).map((video, index) => (
               <div 
                 key={video.id} 
-                className="w-64 h-40 bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg"
+                className="w-[520px] h-80 bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg"
               >
                 <iframe
                   src={video.vimeoUrl}
@@ -162,9 +162,9 @@ export default function Home() {
         <div className="text-center">
           <Link href="/portfolio">
             <Button 
-              className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-lg text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
             >
-              Tümünü Gör →
+              View All →
             </Button>
           </Link>
         </div>
@@ -174,7 +174,7 @@ export default function Home() {
       <button
         onClick={() => setShowContactForm(true)}
         className="fixed bottom-6 right-6 w-14 h-14 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-50"
-        title="İletişim"
+        title="Contact"
       >
         <MessageCircle className="w-6 h-6" />
       </button>

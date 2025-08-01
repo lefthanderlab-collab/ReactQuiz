@@ -47,17 +47,17 @@ export default function Portfolio() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p>Portföy yükleniyor...</p>
+          <p>Loading portfolio...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-400 to-red-600">
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600">
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -67,11 +67,11 @@ export default function Portfolio() {
               className="text-white hover:bg-white/20 hover:text-white"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Ana Sayfa
+              Home
             </Button>
           </Link>
           
-          <h1 className="text-3xl font-bold text-white">Tüm Projeler</h1>
+          <h1 className="text-3xl font-bold text-white">All Projects</h1>
           
           <div className="w-24"></div>
         </div>
@@ -84,23 +84,23 @@ export default function Portfolio() {
               onClick={() => setSelectedCategory(category)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                 selectedCategory === category
-                  ? "bg-white text-red-500 shadow-lg"
+                  ? "bg-white text-blue-600 shadow-lg"
                   : "bg-white/20 text-white hover:bg-white/30"
               }`}
             >
-              {category === "all" ? "Tümü" : category}
+              {category === "all" ? "All" : category}
             </button>
           ))}
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
           {filteredVideos.map((video) => (
             <div 
               key={video.id}
               className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
             >
-              <div className="aspect-video relative">
+              <div className="aspect-video relative h-64">
                 <iframe
                   src={video.vimeoUrl}
                   className="w-full h-full"
@@ -124,7 +124,7 @@ export default function Portfolio() {
                     {video.category}
                   </span>
                   <button className="text-white/80 hover:text-white text-sm font-medium flex items-center space-x-1 transition-colors">
-                    <span>Detay</span>
+                    <span>Details</span>
                     <ExternalLink className="w-3 h-3" />
                   </button>
                 </div>
@@ -136,8 +136,8 @@ export default function Portfolio() {
         {/* Results Count */}
         <div className="text-center text-white/80">
           <p className="text-lg">
-            {filteredVideos.length} proje gösteriliyor
-            {selectedCategory !== "all" && ` (${selectedCategory})`}
+            Showing {filteredVideos.length} projects
+            {selectedCategory !== "all" && ` in ${selectedCategory}`}
           </p>
         </div>
       </div>

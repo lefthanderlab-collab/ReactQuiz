@@ -10,16 +10,20 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (January 2025)
 
-- **Complete Design Overhaul**: Redesigned the application to match a Turkish portfolio website aesthetic with red gradient background and modern glass morphism effects
+- **Complete Design Overhaul**: Redesigned the application to match modern portfolio website aesthetic with blue/purple gradient background and glass morphism effects
+- **Language Translation**: Converted entire application to English from Turkish/Korean
+- **Enhanced Video Display**: Doubled video sizes for better prominence - main carousel videos now 520px wide x 320px tall
+- **Color Scheme Update**: Changed from red gradient to blue/purple gradient throughout the application
 - **New Homepage Layout**: 
-  - Header navigation with 5 menu items (İletişim, Hakkımda, Anasayfa, Portföyö, Hizmetler)
-  - Circular profile section with "MG" placeholder
-  - Hero section with Turkish/English mixed text
-  - Three service cards with glass morphism design
-  - Portfolio preview carousel with 3 visible videos
-  - "Tümünü Gör" button linking to full portfolio
-- **New Portfolio Page**: Dedicated page showing all projects with category filtering
-- **Navigation Integration**: Connected navigation buttons between pages
+  - Header navigation with 5 menu items (Contact, About, Home, Portfolio, Services)
+  - Circular profile section with "MG" placeholder and purple border
+  - Hero section: "Hello, I'm a Motion Graphics Designer"
+  - Three service cards with blue/purple theme and glass morphism design
+  - Portfolio preview carousel with 3 larger visible videos and navigation arrows
+  - "View All" button linking to full portfolio
+- **Enhanced Portfolio Page**: Dedicated page with larger video grid, category filtering, and blue/purple theme
+- **Updated Contact Form**: Fully translated contact modal with blue accent colors
+- **Navigation Integration**: Connected navigation buttons between pages with blue hover states
 - **Fixed Technical Issues**: Resolved ContactModal accessibility warnings and import path issues
 
 ## System Architecture

@@ -48,8 +48,8 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     },
     onSuccess: () => {
       toast({
-        title: "메시지가 전송되었습니다",
-        description: "소중한 의견 감사합니다. 빠른 시일 내에 연락드리겠습니다.",
+        title: "Message sent successfully",
+        description: "Thank you for your message. I'll get back to you soon.",
       });
       queryClient.invalidateQueries({ queryKey: ["/api/contacts"] });
       form.reset();
@@ -57,8 +57,8 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     },
     onError: (error: any) => {
       toast({
-        title: "전송 실패",
-        description: "메시지 전송 중 오류가 발생했습니다. 다시 시도해주세요.",
+        title: "Failed to send",
+        description: "An error occurred while sending your message. Please try again.",
         variant: "destructive",
       });
       console.error("Contact form submission error:", error);
@@ -80,7 +80,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         <DialogHeader>
           <div className="flex items-center justify-between">
             <DialogTitle className="text-xl font-semibold text-gray-900">
-              메시지를 남겨주세요
+              Send me a message
             </DialogTitle>
             <Button
               variant="ghost"
@@ -92,7 +92,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             </Button>
           </div>
           <p id="contact-form-description" className="text-sm text-gray-600 mt-2">
-            프로젝트 문의나 협업 제안을 남겨주시면 빠른 시일 내에 연락드리겠습니다.
+            Leave your project inquiries or collaboration proposals and I'll get back to you soon.
           </p>
         </DialogHeader>
 
@@ -103,11 +103,11 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>이름</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="성함을 입력해주세요"
+                      placeholder="Enter your name"
                       className="w-full"
                     />
                   </FormControl>
@@ -121,12 +121,12 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>이메일</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       type="email"
-                      placeholder="이메일 주소를 입력해주세요"
+                      placeholder="Enter your email address"
                       className="w-full"
                     />
                   </FormControl>
@@ -140,12 +140,12 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>메시지</FormLabel>
+                  <FormLabel>Message</FormLabel>
                   <FormControl>
                     <Textarea
                       {...field}
                       rows={4}
-                      placeholder="프로젝트 문의사항이나 메모를 작성해주세요..."
+                      placeholder="Write your project inquiry or collaboration proposal..."
                       className="w-full resize-none"
                     />
                   </FormControl>
@@ -162,14 +162,14 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 className="flex-1"
                 disabled={contactMutation.isPending}
               >
-                취소
+                Cancel
               </Button>
               <Button
                 type="submit"
-                className="flex-1"
+                className="flex-1 bg-blue-600 hover:bg-blue-700"
                 disabled={contactMutation.isPending}
               >
-                {contactMutation.isPending ? "전송 중..." : "보내기"}
+                {contactMutation.isPending ? "Sending..." : "Send"}
               </Button>
             </div>
           </form>
