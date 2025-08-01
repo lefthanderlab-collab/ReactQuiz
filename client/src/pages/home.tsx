@@ -138,6 +138,37 @@ export default function Home() {
             </p>
           </div>
         </div>
+
+        {/* Contact Section */}
+        <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-2xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">연락하기</h2>
+            <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
+              프로젝트 문의나 협업 제안이 있으시면 언제든지 연락주세요.<br/>
+              창의적인 영상 제작을 통해 브랜드의 스토리를 함께 만들어가겠습니다.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button
+                onClick={() => setShowContactForm(true)}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 rounded-lg text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
+              >
+                메시지 보내기
+              </Button>
+              
+              <div className="flex flex-col sm:flex-row gap-4 text-gray-600">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span className="text-sm">Email: oneglass@example.com</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                  <span className="text-sm">Phone: +82 10-1234-5678</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Floating Contact Button */}
