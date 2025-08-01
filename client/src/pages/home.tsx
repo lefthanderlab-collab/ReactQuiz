@@ -46,21 +46,21 @@ export default function Home() {
               onClick={() => setShowContactForm(true)}
               className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
             >
-              Contact
+              연락하기
             </button>
             <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-              About
+              소개
             </button>
             <button className="text-blue-600 font-medium">
-              Home
+              홈
             </button>
             <Link href="/portfolio">
               <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                Portfolio
+                포트폴리오
               </button>
             </Link>
             <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-              Services
+              서비스
             </button>
           </div>
         </nav>
@@ -69,19 +69,24 @@ export default function Home() {
         <div className="text-center mb-16">
           <div className="relative inline-block mb-8">
             <div className="w-32 h-32 rounded-full border-4 border-purple-400 overflow-hidden mx-auto shadow-xl">
-              <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
-                MG
-              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1494790108755-2616b612b1a5?w=150&h=150&fit=crop&crop=face" 
+                alt="oneglass profile" 
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
           
           <h1 className="text-4xl font-light text-white mb-4">
-            Hello, I'm a <span className="font-bold text-white">Motion Graphics</span> Designer.
+            Hello, I'm <span className="font-bold text-white">oneglass</span>.
           </h1>
           
+          <h2 className="text-2xl font-semibold text-white mb-4">
+            창의적인 영상으로 스토리를 전달합니다
+          </h2>
+          
           <p className="text-white/80 text-lg max-w-2xl mx-auto leading-relaxed">
-            I bring brands to life through creative motion graphics and visual storytelling. 
-            Each project features unique style and messaging to create unforgettable experiences.
+            브랜드의 본질을 담은 영상 콘텐츠를 통해 감동과 메시지를 전달하는 비디오 디자이너입니다
           </p>
         </div>
 
@@ -91,9 +96,9 @@ export default function Home() {
             <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-4">
               <Zap className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-semibold mb-3">Motion Graphics</h3>
+            <h3 className="text-xl font-semibold mb-3">Film Direction</h3>
             <p className="text-white/80 text-sm leading-relaxed">
-              Professional motion graphics designs that visually tell your brand's story with creativity and impact.
+              브랜드의 스토리를 시각적으로 전달하는 창의적인 영상 제작과 연출을 통해 감동을 만들어냅니다.
             </p>
           </div>
 
@@ -101,9 +106,9 @@ export default function Home() {
             <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-4">
               <Zap className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-semibold mb-3">Video Editing</h3>
+            <h3 className="text-xl font-semibold mb-3">Video Production</h3>
             <p className="text-white/80 text-sm leading-relaxed">
-              Professional video editing for corporate videos, promotional films, and social media content.
+              기업 홍보영상, 브랜드 캠페인, 소셜미디어 콘텐츠까지 다양한 영상 제작 서비스를 제공합니다.
             </p>
           </div>
 
@@ -111,9 +116,9 @@ export default function Home() {
             <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-4">
               <Zap className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-semibold mb-3">Brand Identity</h3>
+            <h3 className="text-xl font-semibold mb-3">Brand Storytelling</h3>
             <p className="text-white/80 text-sm leading-relaxed">
-              Creative animation and graphic design solutions that strengthen your brand's visual identity.
+              브랜드만의 고유한 스토리와 가치를 영상을 통해 효과적으로 전달하는 전문 서비스입니다.
             </p>
           </div>
         </div>
@@ -164,7 +169,7 @@ export default function Home() {
             <Button 
               className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
             >
-              View All →
+              전체보기 →
             </Button>
           </Link>
         </div>
@@ -174,7 +179,7 @@ export default function Home() {
       <button
         onClick={() => setShowContactForm(true)}
         className="fixed bottom-6 right-6 w-14 h-14 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-50"
-        title="Contact"
+        title="연락하기"
       >
         <MessageCircle className="w-6 h-6" />
       </button>

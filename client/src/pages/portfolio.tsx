@@ -50,7 +50,7 @@ export default function Portfolio() {
       <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p>Loading portfolio...</p>
+          <p>포트폴리오 로딩 중...</p>
         </div>
       </div>
     );
@@ -67,11 +67,11 @@ export default function Portfolio() {
               className="text-white hover:bg-white/20 hover:text-white"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Home
+              홈
             </Button>
           </Link>
           
-          <h1 className="text-3xl font-bold text-white">All Projects</h1>
+          <h1 className="text-3xl font-bold text-white">전체 프로젝트</h1>
           
           <div className="w-24"></div>
         </div>
@@ -88,7 +88,7 @@ export default function Portfolio() {
                   : "bg-white/20 text-white hover:bg-white/30"
               }`}
             >
-              {category === "all" ? "All" : category}
+              {category === "all" ? "전체" : category}
             </button>
           ))}
         </div>
@@ -124,7 +124,7 @@ export default function Portfolio() {
                     {video.category}
                   </span>
                   <button className="text-white/80 hover:text-white text-sm font-medium flex items-center space-x-1 transition-colors">
-                    <span>Details</span>
+                    <span>자세히</span>
                     <ExternalLink className="w-3 h-3" />
                   </button>
                 </div>
@@ -136,8 +136,8 @@ export default function Portfolio() {
         {/* Results Count */}
         <div className="text-center text-white/80">
           <p className="text-lg">
-            Showing {filteredVideos.length} projects
-            {selectedCategory !== "all" && ` in ${selectedCategory}`}
+            {filteredVideos.length}개의 프로젝트
+            {selectedCategory !== "all" && ` (${selectedCategory})`}
           </p>
         </div>
       </div>

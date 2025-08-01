@@ -11,18 +11,23 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes (January 2025)
 
 - **Complete Design Overhaul**: Redesigned the application to match modern portfolio website aesthetic with blue/purple gradient background and glass morphism effects
-- **Language Translation**: Converted entire application to English from Turkish/Korean
+- **Portfolio Personalization**: Updated for "oneglass" - a female film director
+  - Added female profile image from Unsplash
+  - Changed from "Motion Graphics Designer" to film director focus
+  - Updated name to "oneglass" in hero section
+- **Language Updates**: Mixed Korean/English interface optimized for Korean market
+  - Korean navigation: 연락하기, 소개, 홈, 포트폴리오, 서비스
+  - Korean hero message: "창의적인 영상으로 스토리를 전달합니다"
+  - Korean description: "브랜드의 본질을 담은 영상 콘텐츠를 통해 감동과 메시지를 전달하는 비디오 디자이너입니다"
+  - Korean contact form and services descriptions
 - **Enhanced Video Display**: Doubled video sizes for better prominence - main carousel videos now 520px wide x 320px tall
 - **Color Scheme Update**: Changed from red gradient to blue/purple gradient throughout the application
-- **New Homepage Layout**: 
-  - Header navigation with 5 menu items (Contact, About, Home, Portfolio, Services)
-  - Circular profile section with "MG" placeholder and purple border
-  - Hero section: "Hello, I'm a Motion Graphics Designer"
-  - Three service cards with blue/purple theme and glass morphism design
-  - Portfolio preview carousel with 3 larger visible videos and navigation arrows
-  - "View All" button linking to full portfolio
+- **Updated Services Section**: Changed to film-focused services:
+  - Film Direction (영상 연출)
+  - Video Production (영상 제작)
+  - Brand Storytelling (브랜드 스토리텔링)
 - **Enhanced Portfolio Page**: Dedicated page with larger video grid, category filtering, and blue/purple theme
-- **Updated Contact Form**: Fully translated contact modal with blue accent colors
+- **Korean Contact Form**: Fully localized contact modal with Korean labels and messages
 - **Navigation Integration**: Connected navigation buttons between pages with blue hover states
 - **Fixed Technical Issues**: Resolved ContactModal accessibility warnings and import path issues
 
