@@ -26,11 +26,11 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600">
+    <div className="min-h-screen gradient-mesh">
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header Navigation */}
-        <nav className="bg-white/90 backdrop-blur-sm rounded-2xl px-8 py-4 mb-12 shadow-lg">
+        <nav className="nav-glass rounded-2xl px-8 py-4 mb-12">
           <div className="flex justify-center space-x-8">
             <button 
               onClick={() => setShowContactForm(true)}
@@ -56,7 +56,7 @@ export default function Home() {
         </nav>
 
         {/* Main Content Layout with Profile and Video Grid */}
-        <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-2xl">
+        <div className="glass-surface rounded-3xl p-8 mb-8">
           {/* Header with Title */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-800 mb-2">포트폴리오</h1>
@@ -65,7 +65,7 @@ export default function Home() {
           {/* Video Grid with Profile */}
           <div className="grid grid-cols-3 gap-6">
             {/* Profile Card - Top Left */}
-            <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-6 flex flex-col items-center justify-center text-white shadow-lg">
+            <div className="profile-card-glass rounded-2xl p-6 flex flex-col items-center justify-center text-white">
               <div className="w-20 h-20 rounded-full overflow-hidden mb-4 border-3 border-white/30">
                 <img 
                   src="https://images.unsplash.com/photo-1494790108755-2616b612b1a5?w=150&h=150&fit=crop&crop=face" 
@@ -81,7 +81,7 @@ export default function Home() {
             
             {/* Video Cards */}
             {portfolioImages.slice(0, 8).map((video, index) => (
-              <div key={video.id} className="bg-gray-100 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+              <div key={video.id} className="video-card-glass rounded-2xl overflow-hidden group">
                 <div className="aspect-video relative">
                   <iframe
                     src={video.vimeoUrl}
@@ -117,21 +117,21 @@ export default function Home() {
 
         {/* Services Section - Simplified */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center text-white">
+          <div className="glass-card rounded-xl p-6 text-center text-white">
             <h3 className="text-lg font-semibold mb-3">Film Direction</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               브랜드의 스토리를 시각적으로 전달하는 창의적인 영상 제작과 연출
             </p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center text-white">
+          <div className="glass-card rounded-xl p-6 text-center text-white">
             <h3 className="text-lg font-semibold mb-3">Video Production</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               기업 홍보영상부터 소셜미디어 콘텐츠까지 다양한 영상 제작
             </p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center text-white">
+          <div className="glass-card rounded-xl p-6 text-center text-white">
             <h3 className="text-lg font-semibold mb-3">Brand Storytelling</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               브랜드만의 고유한 스토리와 가치를 영상을 통해 효과적으로 전달
@@ -140,7 +140,7 @@ export default function Home() {
         </div>
 
         {/* Contact Section */}
-        <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-2xl">
+        <div className="glass-surface rounded-3xl p-8 mb-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">연락하기</h2>
             <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">

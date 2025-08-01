@@ -57,10 +57,10 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600">
+    <div className="min-h-screen gradient-mesh">
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8 glass-card rounded-2xl p-6">
           <Link href="/">
             <Button 
               variant="ghost" 
@@ -84,8 +84,8 @@ export default function Portfolio() {
               onClick={() => setSelectedCategory(category)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                 selectedCategory === category
-                  ? "bg-white text-blue-600 shadow-lg"
-                  : "bg-white/20 text-white hover:bg-white/30"
+                  ? "glass-surface text-blue-600"
+                  : "glass-card text-white hover:bg-white/30"
               }`}
             >
               {category === "all" ? "전체" : category}
@@ -98,7 +98,7 @@ export default function Portfolio() {
           {filteredVideos.map((video) => (
             <div 
               key={video.id}
-              className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+              className="video-card-glass rounded-xl overflow-hidden"
             >
               <div className="aspect-video relative h-64">
                 <iframe
@@ -134,7 +134,7 @@ export default function Portfolio() {
         </div>
 
         {/* Results Count */}
-        <div className="text-center text-white/80">
+        <div className="text-center text-white/80 glass-card rounded-xl p-4">
           <p className="text-lg">
             {filteredVideos.length}개의 프로젝트
             {selectedCategory !== "all" && ` (${selectedCategory})`}
