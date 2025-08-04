@@ -114,7 +114,7 @@ export default function Home() {
         </div>
 
         {/* Video Gallery - Clean & Minimal */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {portfolioImages.slice(0, 6).map((video, index) => (
             <div key={video.id} className="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="aspect-video relative">
@@ -129,6 +129,17 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* View All Videos Button */}
+        <div className="text-center mb-12">
+          <Link href="/portfolio">
+            <Button 
+              className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-10 py-4 rounded-full text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
+            >
+              영상 전체보기 →
+            </Button>
+          </Link>
         </div>
 
 
