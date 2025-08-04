@@ -78,6 +78,34 @@ export default function AdminPage() {
     createVideoMutation.mutate(data);
   };
 
+  // Function to get video thumbnail URL
+  const getVideoThumbnail = (url: string, title: string = "Video Thumbnail") => {
+    if (url.includes('youtube.com/watch?v=')) {
+      const videoId = url.split('v=')[1].split('&')[0];
+      return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+    } else if (url.includes('youtu.be/')) {
+      const videoId = url.split('youtu.be/')[1].split('?')[0];
+      return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+    } else if (url.includes('vimeo.com/')) {
+      const videoId = url.split('vimeo.com/')[1].split('?')[0];
+      return `https://vumbnail.com/${videoId}.jpg`;
+    } else if (url.includes('player.vimeo.com/video/')) {
+      const videoId = url.split('video/')[1].split('?')[0];
+      return `https://vumbnail.com/${videoId}.jpg`;
+    }
+    // Default placeholder for unsupported formats
+    return `data:image/svg+xml;base64,${btoa(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+        <rect width="320" height="180" fill="#1e293b"/>
+        <text x="160" y="90" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="14">
+          ${title}
+        </text>
+        <circle cx="160" cy="110" r="20" fill="#64748b"/>
+        <polygon points="155,105 155,115 165,110" fill="#1e293b"/>
+      </svg>
+    `)}`;
+  };
+
   const handleDeleteVideo = (videoId: string, title: string) => {
     if (window.confirm(`"${title}" 영상을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.`)) {
       deleteVideoMutation.mutate(videoId);
@@ -167,11 +195,11 @@ export default function AdminPage() {
                     name="vimeoUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-white">Vimeo URL</FormLabel>
+                        <FormLabel className="text-white">YouTube/Vimeo URL</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
-                            placeholder="https://player.vimeo.com/video/123456789"
+                            placeholder="YouTube: https://youtu.be/... 또는 Vimeo: https://vimeo.com/..."
                             className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                           />
                         </FormControl>
@@ -238,15 +266,34 @@ export default function AdminPage() {
                 <CardContent>
                   <div className="space-y-4">
                     {/* Video Preview */}
-                    <div className="aspect-video rounded-lg overflow-hidden">
-                      <iframe
-                        src={video.vimeoUrl}
-                        className="w-full h-full"
-                        frameBorder="0"
-                        allow="autoplay; fullscreen; picture-in-picture"
-                        allowFullScreen
-                        title={video.title}
+                    <div 
+                      className="aspect-video rounded-lg overflow-hidden bg-gray-800 relative group cursor-pointer"
+                      onClick={() => window.open(video.vimeoUrl, '_blank')}
+                    >
+                      <img
+                        src={getVideoThumbnail(video.vimeoUrl, video.title)}
+                        alt={video.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          // Fallback to a default placeholder if thumbnail fails to load
+                          e.currentTarget.src = `data:image/svg+xml;base64,${btoa(`
+                            <svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+                              <rect width="320" height="180" fill="#374151"/>
+                              <text x="160" y="80" text-anchor="middle" fill="#9CA3AF" font-family="Arial" font-size="12">
+                                ${video.title}
+                              </text>
+                              <circle cx="160" cy="110" r="20" fill="#6B7280"/>
+                              <polygon points="155,105 155,115 165,110" fill="#374151"/>
+                            </svg>
+                          `)}`;
+                        }}
                       />
+                      {/* Play button overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center">
+                          <div className="w-0 h-0 border-l-[8px] border-l-black border-y-[6px] border-y-transparent ml-1"></div>
+                        </div>
+                      </div>
                     </div>
                     
                     <div className="space-y-2">
