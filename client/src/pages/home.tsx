@@ -211,7 +211,7 @@ export default function Home() {
             {/* Profile Content */}
             <div className="flex-1 text-center md:text-left">
               <h1 className="text-4xl font-bold text-gray-800 mb-2">oneglass</h1>
-              <p className="text-xl text-blue-600 mb-4">Film Director & Video Creator</p>
+              <p className="text-xl bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-semibold mb-4">Film Director & Video Creator</p>
               <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">
                 창의적인 영상으로 스토리를 전달합니다. 브랜드의 본질을 담은 영상 콘텐츠를 통해 
                 감동과 메시지를 전달하는 비디오 디자이너입니다.
