@@ -136,7 +136,7 @@ export default function Portfolio() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8 glass-card rounded-2xl p-6">
+        <div className="flex items-center justify-between mb-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-6 shadow-lg">
           <Link href="/">
             <Button 
               variant="ghost" 
@@ -293,8 +293,8 @@ export default function Portfolio() {
         </div>
 
         {/* Results Count */}
-        <div className="text-center text-white/80 glass-card rounded-xl p-4">
-          <p className="text-lg">
+        <div className="text-center bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-4 shadow-lg">
+          <p className="text-lg text-white">
             {filteredVideos.length}개의 프로젝트
             {selectedCategory !== "all" && ` (${selectedCategory})`}
           </p>
