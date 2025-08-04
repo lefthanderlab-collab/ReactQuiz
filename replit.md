@@ -34,15 +34,6 @@ Preferred communication style: Simple, everyday language.
 - **Color Scheme**: Blue/purple gradient throughout the application
 - **Enhanced Portfolio Page**: Dedicated page with larger video grid and glass morphism theme
 - **Korean Contact Form**: Fully localized contact form with Korean labels and validation
-- **Admin Panel Implementation (August 2025)**: Complete database-driven content management system
-  - **Database Integration**: Migrated from memory storage to PostgreSQL database
-  - **Video Management**: Full CRUD operations (Create, Read, Update, Delete) for video portfolio
-  - **Featured Video System**: Ability to mark videos as featured for homepage display
-  - **Admin Interface**: Glass morphism-styled admin panel at `/admin` route
-  - **Video Categories**: Support for 10+ video categories (Motion Graphics, Commercial, UI/UX, etc.)
-  - **Vimeo Integration**: Preview videos directly in admin panel with embedded player
-  - **Form Validation**: Comprehensive form validation with Zod schemas
-  - **Discrete Access**: Small gear icon in bottom-left corner for admin access
 - **Fixed Technical Issues**: Resolved API call errors and import path issues
 
 ## System Architecture
