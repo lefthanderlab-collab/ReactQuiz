@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Video, InsertVideo } from "@shared/schema";
@@ -18,10 +18,6 @@ export default function AdminPage() {
   const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
   const [editingVideo, setEditingVideo] = useState<Video | null>(null);
-  
-  // Check for edit parameter in URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const editVideoId = urlParams.get('edit');
 
   // Fetch all videos
   const { data: videos = [], isLoading } = useQuery<Video[]>({
@@ -124,19 +120,7 @@ export default function AdminPage() {
     setEditingVideo(null);
     setShowForm(false);
     form.reset();
-    // Clear URL parameter
-    window.history.replaceState({}, '', '/admin');
   };
-  
-  // Auto-select video for editing if URL param exists
-  if (editVideoId && videos.length > 0 && !editingVideo && !showForm) {
-    const videoToEdit = videos.find(v => v.id === editVideoId);
-    if (videoToEdit) {
-      setTimeout(() => {
-        handleEditVideo(videoToEdit);
-      }, 100);
-    }
-  }
 
   // Function to get video thumbnail URL
   const getVideoThumbnail = (url: string, title: string = "Video Thumbnail") => {

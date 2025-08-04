@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Video } from "@shared/schema";
-import { MessageCircle, Send, Instagram, Youtube, Mail, Phone, Settings, Edit } from "lucide-react";
+import { MessageCircle, Send, Instagram, Youtube, Mail, Phone, Settings } from "lucide-react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -175,7 +175,7 @@ export default function Home() {
         {/* Video Gallery - Clean & Minimal */}
         <div ref={videoGridRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {portfolioImages.slice(0, 6).map((video, index) => (
-            <div key={video.id} className="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative group">
+            <div key={video.id} className="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="aspect-video relative">
                 <iframe
                   src={getEmbedUrl(video.vimeoUrl)}
@@ -185,16 +185,6 @@ export default function Home() {
                   allowFullScreen
                   title={video.title}
                 ></iframe>
-                
-                {/* Edit Button */}
-                <Link href={`/admin?edit=${video.id}`}>
-                  <button
-                    className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100"
-                    title="영상 편집"
-                  >
-                    <Edit className="w-5 h-5" />
-                  </button>
-                </Link>
               </div>
             </div>
           ))}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Video } from "@shared/schema";
-import { ArrowLeft, ExternalLink, Settings, Edit } from "lucide-react";
+import { ArrowLeft, ExternalLink, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Portfolio() {
@@ -126,7 +126,7 @@ export default function Portfolio() {
           {filteredVideos.map((video) => (
             <div 
               key={video.id}
-              className="video-card-glass rounded-xl overflow-hidden relative group"
+              className="video-card-glass rounded-xl overflow-hidden"
             >
               <div className="aspect-video relative h-64">
                 <iframe
@@ -137,16 +137,6 @@ export default function Portfolio() {
                   allowFullScreen
                   title={video.title}
                 />
-                
-                {/* Edit Button */}
-                <Link href={`/admin?edit=${video.id}`}>
-                  <button
-                    className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100"
-                    title="영상 편집"
-                  >
-                    <Edit className="w-5 h-5" />
-                  </button>
-                </Link>
               </div>
               
               <div className="p-4 text-white">
