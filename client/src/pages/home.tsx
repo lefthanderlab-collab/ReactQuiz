@@ -275,7 +275,7 @@ export default function Home() {
                         e.stopPropagation();
                         handleVideoPlay(video.id);
                       }}
-                      className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform duration-200 border-2 border-yellow-300"
+                      className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform duration-200"
                     >
                       <Play className="w-8 h-8 text-white ml-1" />
                     </button>
