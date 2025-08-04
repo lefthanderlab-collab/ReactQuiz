@@ -14,6 +14,21 @@ export default function Portfolio() {
 
   const categories = ["all", ...Array.from(new Set(videos.map(video => video.category)))];
   
+  // Function to convert YouTube URL to embed format
+  const getEmbedUrl = (url: string) => {
+    if (url.includes('youtube.com/watch?v=')) {
+      const videoId = url.split('v=')[1].split('&')[0];
+      return `https://www.youtube.com/embed/${videoId}`;
+    } else if (url.includes('youtu.be/')) {
+      const videoId = url.split('youtu.be/')[1].split('?')[0];
+      return `https://www.youtube.com/embed/${videoId}`;
+    } else if (url.includes('vimeo.com/')) {
+      const videoId = url.split('vimeo.com/')[1].split('?')[0];
+      return `https://player.vimeo.com/video/${videoId}`;
+    }
+    return url; // Return original URL if already in embed format
+  };
+
   const filteredVideos = selectedCategory === "all" 
     ? videos 
     : videos.filter(video => video.category === selectedCategory);
@@ -115,7 +130,7 @@ export default function Portfolio() {
             >
               <div className="aspect-video relative h-64">
                 <iframe
-                  src={video.vimeoUrl}
+                  src={getEmbedUrl(video.vimeoUrl)}
                   className="w-full h-full"
                   frameBorder="0"
                   allow="autoplay; fullscreen; picture-in-picture"

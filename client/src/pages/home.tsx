@@ -103,6 +103,21 @@ export default function Home() {
     contactMutation.mutate(contactForm);
   };
 
+  // Function to convert YouTube URL to embed format
+  const getEmbedUrl = (url: string) => {
+    if (url.includes('youtube.com/watch?v=')) {
+      const videoId = url.split('v=')[1].split('&')[0];
+      return `https://www.youtube.com/embed/${videoId}`;
+    } else if (url.includes('youtu.be/')) {
+      const videoId = url.split('youtu.be/')[1].split('?')[0];
+      return `https://www.youtube.com/embed/${videoId}`;
+    } else if (url.includes('vimeo.com/')) {
+      const videoId = url.split('vimeo.com/')[1].split('?')[0];
+      return `https://player.vimeo.com/video/${videoId}`;
+    }
+    return url; // Return original URL if already in embed format
+  };
+
   const portfolioImages = videos; // Show all videos in grid
 
   if (isLoading) {
@@ -163,7 +178,7 @@ export default function Home() {
             <div key={video.id} className="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="aspect-video relative">
                 <iframe
-                  src={video.vimeoUrl}
+                  src={getEmbedUrl(video.vimeoUrl)}
                   className="w-full h-full"
                   frameBorder="0"
                   allow="autoplay; fullscreen; picture-in-picture"
