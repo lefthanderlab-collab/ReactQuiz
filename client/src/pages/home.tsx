@@ -103,19 +103,28 @@ export default function Home() {
     contactMutation.mutate(contactForm);
   };
 
-  // Function to convert YouTube URL to embed format
-  const getEmbedUrl = (url: string) => {
+  // Function to get video thumbnail URL
+  const getVideoThumbnail = (url: string, title: string) => {
     if (url.includes('youtube.com/watch?v=')) {
       const videoId = url.split('v=')[1].split('&')[0];
-      return `https://www.youtube.com/embed/${videoId}`;
+      return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
     } else if (url.includes('youtu.be/')) {
       const videoId = url.split('youtu.be/')[1].split('?')[0];
-      return `https://www.youtube.com/embed/${videoId}`;
+      return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
     } else if (url.includes('vimeo.com/')) {
-      const videoId = url.split('vimeo.com/')[1].split('?')[0];
-      return `https://player.vimeo.com/video/${videoId}`;
+      // For Vimeo, we'll use a placeholder since getting thumbnails requires API
+      return `data:image/svg+xml;base64,${btoa(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
+          <rect width="480" height="270" fill="#1a202c"/>
+          <text x="240" y="120" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="18" font-weight="bold">
+            ${title}
+          </text>
+          <circle cx="240" cy="160" r="30" fill="#4a5568"/>
+          <polygon points="225,145 225,175 255,160" fill="#e2e8f0"/>
+        </svg>
+      `)}`;
     }
-    return url; // Return original URL if already in embed format
+    return url;
   };
 
   const portfolioImages = videos; // Show all videos in grid
@@ -172,19 +181,39 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Video Gallery - Clean & Minimal */}
-        <div ref={videoGridRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {portfolioImages.slice(0, 6).map((video, index) => (
-            <div key={video.id} className="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="aspect-video relative">
-                <iframe
-                  src={getEmbedUrl(video.vimeoUrl)}
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen
-                  title={video.title}
-                ></iframe>
+        {/* Video Gallery - Clean & Minimal Thumbnails */}
+        <div ref={videoGridRef} className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
+          {portfolioImages.slice(0, 4).map((video, index) => (
+            <div 
+              key={video.id} 
+              className="group cursor-pointer"
+              onClick={() => window.open(video.vimeoUrl, '_blank')}
+            >
+              <div className="aspect-video relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
+                <img
+                  src={getVideoThumbnail(video.vimeoUrl, video.title)}
+                  alt={video.title}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = `data:image/svg+xml;base64,${btoa(`
+                      <svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
+                        <rect width="480" height="270" fill="#1a202c"/>
+                        <text x="240" y="120" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="18" font-weight="bold">
+                          ${video.title}
+                        </text>
+                        <circle cx="240" cy="160" r="30" fill="#4a5568"/>
+                        <polygon points="225,145 225,175 255,160" fill="#e2e8f0"/>
+                      </svg>
+                    `)}`;
+                  }}
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center shadow-xl transform group-hover:scale-110 transition-transform duration-200">
+                    <div className="w-0 h-0 border-l-[12px] border-l-red-600 border-y-[8px] border-y-transparent ml-1"></div>
+                  </div>
+                </div>
               </div>
             </div>
           ))}

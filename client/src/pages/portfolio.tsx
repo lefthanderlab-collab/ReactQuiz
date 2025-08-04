@@ -14,19 +14,28 @@ export default function Portfolio() {
 
   const categories = ["all", ...Array.from(new Set(videos.map(video => video.category)))];
   
-  // Function to convert YouTube URL to embed format
-  const getEmbedUrl = (url: string) => {
+  // Function to get video thumbnail URL
+  const getVideoThumbnail = (url: string, title: string) => {
     if (url.includes('youtube.com/watch?v=')) {
       const videoId = url.split('v=')[1].split('&')[0];
-      return `https://www.youtube.com/embed/${videoId}`;
+      return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
     } else if (url.includes('youtu.be/')) {
       const videoId = url.split('youtu.be/')[1].split('?')[0];
-      return `https://www.youtube.com/embed/${videoId}`;
+      return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
     } else if (url.includes('vimeo.com/')) {
-      const videoId = url.split('vimeo.com/')[1].split('?')[0];
-      return `https://player.vimeo.com/video/${videoId}`;
+      // For Vimeo, we'll use a placeholder since getting thumbnails requires API
+      return `data:image/svg+xml;base64,${btoa(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
+          <rect width="480" height="270" fill="#1a202c"/>
+          <text x="240" y="120" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="18" font-weight="bold">
+            ${title}
+          </text>
+          <circle cx="240" cy="160" r="30" fill="#4a5568"/>
+          <polygon points="225,145 225,175 255,160" fill="#e2e8f0"/>
+        </svg>
+      `)}`;
     }
-    return url; // Return original URL if already in embed format
+    return url;
   };
 
   const filteredVideos = selectedCategory === "all" 
@@ -121,40 +130,44 @@ export default function Portfolio() {
           ))}
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
+        {/* Projects Grid - Minimal Thumbnails */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
           {filteredVideos.map((video) => (
             <div 
               key={video.id}
-              className="video-card-glass rounded-xl overflow-hidden"
+              className="group cursor-pointer"
+              onClick={() => window.open(video.vimeoUrl, '_blank')}
             >
-              <div className="aspect-video relative h-64">
-                <iframe
-                  src={getEmbedUrl(video.vimeoUrl)}
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen
-                  title={video.title}
+              <div className="aspect-video relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.05]">
+                <img
+                  src={getVideoThumbnail(video.vimeoUrl, video.title)}
+                  alt={video.title}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = `data:image/svg+xml;base64,${btoa(`
+                      <svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
+                        <rect width="480" height="270" fill="#1a202c"/>
+                        <text x="240" y="120" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="16" font-weight="bold">
+                          ${video.title}
+                        </text>
+                        <circle cx="240" cy="160" r="25" fill="#4a5568"/>
+                        <polygon points="230,150 230,170 250,160" fill="#e2e8f0"/>
+                      </svg>
+                    `)}`;
+                  }}
                 />
-              </div>
-              
-              <div className="p-4 text-white">
-                <h3 className="text-lg font-semibold mb-2 line-clamp-1">
-                  {video.title}
-                </h3>
-                <p className="text-white/80 text-sm mb-3 line-clamp-2">
-                  {video.description}
-                </p>
-                
-                <div className="flex items-center justify-between">
-                  <span className={`text-xs px-3 py-1 rounded-full text-white font-medium ${getCategoryColor(video.category)}`}>
+                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="w-14 h-14 bg-white/95 rounded-full flex items-center justify-center shadow-xl transform group-hover:scale-110 transition-transform duration-200">
+                    <div className="w-0 h-0 border-l-[10px] border-l-red-600 border-y-[7px] border-y-transparent ml-1"></div>
+                  </div>
+                </div>
+                {/* Category badge */}
+                <div className="absolute top-2 left-2">
+                  <span className={`text-xs px-2 py-1 rounded-full text-white font-medium ${getCategoryColor(video.category)} shadow-lg`}>
                     {video.category}
                   </span>
-                  <button className="text-white/80 hover:text-white text-sm font-medium flex items-center space-x-1 transition-colors">
-                    <span>자세히</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </button>
                 </div>
               </div>
             </div>
