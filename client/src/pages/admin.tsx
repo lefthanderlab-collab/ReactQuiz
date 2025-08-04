@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import type { Video, InsertVideo } from "@shared/schema";
+import type { Video, InsertVideo, SiteSettings, InsertSiteSettings } from "@shared/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertVideoSchema } from "@shared/schema";
+import { insertVideoSchema, insertSiteSettingsSchema } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Trash2, Plus, Eye, ArrowLeft, Edit } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Trash2, Plus, Eye, ArrowLeft, Edit, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 
@@ -18,10 +19,16 @@ export default function AdminPage() {
   const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
   const [editingVideo, setEditingVideo] = useState<Video | null>(null);
+  const [showSiteSettings, setShowSiteSettings] = useState(false);
 
   // Fetch all videos
   const { data: videos = [], isLoading } = useQuery<Video[]>({
     queryKey: ["/api/videos"],
+  });
+
+  // Fetch site settings
+  const { data: siteSettings, isLoading: settingsLoading } = useQuery<SiteSettings>({
+    queryKey: ["/api/site-settings"],
   });
 
   // Create video mutation
@@ -86,6 +93,28 @@ export default function AdminPage() {
     },
   });
 
+  // Update site settings mutation
+  const updateSiteSettingsMutation = useMutation({
+    mutationFn: (settingsData: InsertSiteSettings) => 
+      apiRequest("/api/site-settings", "PUT", settingsData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/site-settings"] });
+      setShowSiteSettings(false);
+      settingsForm.reset();
+      toast({
+        title: "성공",
+        description: "사이트 설정이 성공적으로 업데이트되었습니다.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "오류",
+        description: "사이트 설정 업데이트에 실패했습니다.",
+        variant: "destructive",
+      });
+    },
+  });
+
   // Form setup
   const form = useForm<InsertVideo>({
     resolver: zodResolver(insertVideoSchema),
@@ -97,6 +126,19 @@ export default function AdminPage() {
     },
   });
 
+  // Site settings form setup
+  const settingsForm = useForm<InsertSiteSettings>({
+    resolver: zodResolver(insertSiteSettingsSchema),
+    defaultValues: {
+      profileName: "",
+      profileTitle: "",
+      profileDescription: "",
+      contactTitle: "",
+      contactDescription: "",
+      contactEmail: "",
+    },
+  });
+
   const onSubmit = (data: InsertVideo) => {
     if (editingVideo) {
       updateVideoMutation.mutate({ id: editingVideo.id, ...data });
@@ -104,6 +146,24 @@ export default function AdminPage() {
       createVideoMutation.mutate(data);
     }
   };
+
+  const onSettingsSubmit = (data: InsertSiteSettings) => {
+    updateSiteSettingsMutation.mutate(data);
+  };
+
+  // Load site settings into form when data is available
+  useEffect(() => {
+    if (siteSettings && showSiteSettings) {
+      settingsForm.reset({
+        profileName: siteSettings.profileName,
+        profileTitle: siteSettings.profileTitle,
+        profileDescription: siteSettings.profileDescription,
+        contactTitle: siteSettings.contactTitle,
+        contactDescription: siteSettings.contactDescription,
+        contactEmail: siteSettings.contactEmail,
+      });
+    }
+  }, [siteSettings, showSiteSettings, settingsForm]);
 
   const handleEditVideo = (video: Video) => {
     setEditingVideo(video);
@@ -173,20 +233,31 @@ export default function AdminPage() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">영상 관리</h1>
-          <p className="text-xl text-blue-200">포트폴리오 영상을 추가하거나 삭제할 수 있습니다</p>
+          <h1 className="text-4xl font-bold mb-4">관리자 패널</h1>
+          <p className="text-xl text-blue-200">영상과 사이트 설정을 관리할 수 있습니다</p>
         </div>
 
-        {/* Add Video Button */}
-        <div className="flex justify-center mb-8">
-          <Button
-            onClick={() => setShowForm(!showForm)}
-            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            새 영상 추가
-          </Button>
-        </div>
+        <Tabs defaultValue="videos" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 bg-white/10 border-white/20">
+            <TabsTrigger value="videos" className="text-white data-[state=active]:bg-white/20">
+              영상 관리
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="text-white data-[state=active]:bg-white/20">
+              사이트 설정
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="videos" className="mt-8">
+            {/* Add Video Button */}
+            <div className="flex justify-center mb-8">
+              <Button
+                onClick={() => setShowForm(!showForm)}
+                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                새 영상 추가
+              </Button>
+            </div>
 
         {/* Add/Edit Video Form */}
         {showForm && (
@@ -401,12 +472,160 @@ export default function AdminPage() {
           </div>
         )}
 
-        {videos.length === 0 && !isLoading && (
-          <div className="text-center py-16">
-            <p className="text-blue-200 text-lg mb-4">등록된 영상이 없습니다.</p>
-            <p className="text-blue-300">위의 "새 영상 추가" 버튼을 클릭하여 첫 번째 영상을 추가해보세요.</p>
-          </div>
-        )}
+            {videos.length === 0 && !isLoading && (
+              <div className="text-center py-16">
+                <p className="text-blue-200 text-lg mb-4">등록된 영상이 없습니다.</p>
+                <p className="text-blue-300">위의 "새 영상 추가" 버튼을 클릭하여 첫 번째 영상을 추가해보세요.</p>
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="settings" className="mt-8">
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+              <CardHeader>
+                <CardTitle className="text-white">사이트 설정</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {settingsLoading ? (
+                  <div className="text-center py-8">
+                    <p className="text-blue-200">설정을 불러오는 중...</p>
+                  </div>
+                ) : (
+                  <Form {...settingsForm}>
+                    <form onSubmit={settingsForm.handleSubmit(onSettingsSubmit)} className="space-y-6">
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold text-white">프로필 설정</h3>
+                        
+                        <FormField
+                          control={settingsForm.control}
+                          name="profileName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-white">이름</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  placeholder="프로필 이름을 입력하세요"
+                                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={settingsForm.control}
+                          name="profileTitle"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-white">직책/타이틀</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  placeholder="예: 영화 감독, 비디오 디자이너"
+                                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={settingsForm.control}
+                          name="profileDescription"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-white">프로필 설명</FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  {...field}
+                                  placeholder="자신을 소개하는 내용을 입력하세요"
+                                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-h-[100px]"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold text-white">연락처 설정</h3>
+                        
+                        <FormField
+                          control={settingsForm.control}
+                          name="contactTitle"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-white">연락처 섹션 제목</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  placeholder="예: 문의하기, Contact"
+                                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={settingsForm.control}
+                          name="contactDescription"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-white">연락처 설명</FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  {...field}
+                                  placeholder="연락처 섹션에 표시될 설명을 입력하세요"
+                                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={settingsForm.control}
+                          name="contactEmail"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-white">이메일</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  type="email"
+                                  placeholder="contact@example.com"
+                                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div className="flex gap-4">
+                        <Button
+                          type="submit"
+                          disabled={updateSiteSettingsMutation.isPending}
+                          className="bg-blue-600 hover:bg-blue-700 text-white"
+                        >
+                          {updateSiteSettingsMutation.isPending ? "저장 중..." : "설정 저장"}
+                        </Button>
+                      </div>
+                    </form>
+                  </Form>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { videos, contacts, type Video, type InsertVideo, type Contact, type InsertContact } from "@shared/schema";
+import { videos, contacts, siteSettings, type Video, type InsertVideo, type Contact, type InsertContact, type SiteSettings, type InsertSiteSettings } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
@@ -13,6 +13,10 @@ export interface IStorage {
   // Contact operations
   getAllContacts(): Promise<Contact[]>;
   createContact(contact: InsertContact): Promise<Contact>;
+  
+  // Site settings operations
+  getSiteSettings(): Promise<SiteSettings>;
+  updateSiteSettings(settings: InsertSiteSettings): Promise<SiteSettings>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -57,6 +61,41 @@ export class DatabaseStorage implements IStorage {
       .values(insertContact)
       .returning();
     return newContact;
+  }
+
+  async getSiteSettings(): Promise<SiteSettings> {
+    const [settings] = await db.select().from(siteSettings).limit(1);
+    if (!settings) {
+      // Create default settings if none exist
+      const [newSettings] = await db
+        .insert(siteSettings)
+        .values({})
+        .returning();
+      return newSettings;
+    }
+    return settings;
+  }
+
+  async updateSiteSettings(insertSettings: InsertSiteSettings): Promise<SiteSettings> {
+    // Get the first (and should be only) settings record
+    const [existingSettings] = await db.select().from(siteSettings).limit(1);
+    
+    if (!existingSettings) {
+      // Create new settings if none exist
+      const [newSettings] = await db
+        .insert(siteSettings)
+        .values(insertSettings)
+        .returning();
+      return newSettings;
+    } else {
+      // Update existing settings
+      const [updatedSettings] = await db
+        .update(siteSettings)
+        .set({ ...insertSettings, updatedAt: new Date() })
+        .where(eq(siteSettings.id, existingSettings.id))
+        .returning();
+      return updatedSettings;
+    }
   }
 }
 

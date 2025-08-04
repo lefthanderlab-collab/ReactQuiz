@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSchema, insertVideoSchema } from "@shared/schema";
+import { insertContactSchema, insertVideoSchema, insertSiteSettingsSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -111,6 +111,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ message: "Failed to delete video" });
+    }
+  });
+
+  // Get site settings
+  app.get("/api/site-settings", async (req, res) => {
+    try {
+      const settings = await storage.getSiteSettings();
+      res.json(settings);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch site settings" });
+    }
+  });
+
+  // Update site settings
+  app.put("/api/site-settings", async (req, res) => {
+    try {
+      const validatedData = insertSiteSettingsSchema.parse(req.body);
+      const settings = await storage.updateSiteSettings(validatedData);
+      res.json(settings);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid settings data", 
+          errors: error.errors 
+        });
+      }
+      res.status(500).json({ message: "Failed to update site settings" });
     }
   });
 
