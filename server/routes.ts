@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSchema } from "@shared/schema";
+import { insertContactSchema, insertVideoSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -55,6 +55,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(contacts);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch contacts" });
+    }
+  });
+
+  // Create a new video
+  app.post("/api/videos", async (req, res) => {
+    try {
+      const validatedData = insertVideoSchema.parse(req.body);
+      const video = await storage.createVideo(validatedData);
+      res.status(201).json(video);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid video data", 
+          errors: error.errors 
+        });
+      }
+      res.status(500).json({ message: "Failed to create video" });
+    }
+  });
+
+  // Delete a video
+  app.delete("/api/videos/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteVideo(id);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Video not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete video" });
     }
   });
 
