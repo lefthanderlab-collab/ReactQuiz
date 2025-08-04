@@ -275,9 +275,9 @@ export default function Home() {
                         e.stopPropagation();
                         handleVideoPlay(video.id);
                       }}
-                      className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform duration-200"
+                      className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform duration-200 border-2 border-yellow-300"
                     >
-                      <Play className="w-8 h-8 text-red-600 ml-1" />
+                      <Play className="w-8 h-8 text-white ml-1" />
                     </button>
                   </div>
                 )}
