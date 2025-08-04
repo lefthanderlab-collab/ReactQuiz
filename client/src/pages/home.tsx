@@ -164,29 +164,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Services Section - Simplified */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="glass-card rounded-xl p-6 text-center text-white">
-            <h3 className="text-lg font-semibold mb-3">Film Direction</h3>
-            <p className="text-white/80 text-sm leading-relaxed">
-              브랜드의 스토리를 시각적으로 전달하는 창의적인 영상 제작과 연출
-            </p>
-          </div>
 
-          <div className="glass-card rounded-xl p-6 text-center text-white">
-            <h3 className="text-lg font-semibold mb-3">Video Production</h3>
-            <p className="text-white/80 text-sm leading-relaxed">
-              기업 홍보영상부터 소셜미디어 콘텐츠까지 다양한 영상 제작
-            </p>
-          </div>
-
-          <div className="glass-card rounded-xl p-6 text-center text-white">
-            <h3 className="text-lg font-semibold mb-3">Brand Storytelling</h3>
-            <p className="text-white/80 text-sm leading-relaxed">
-              브랜드만의 고유한 스토리와 가치를 영상을 통해 효과적으로 전달
-            </p>
-          </div>
-        </div>
 
         {/* Contact Section */}
         <div className="glass-surface rounded-3xl p-8 mb-8">
