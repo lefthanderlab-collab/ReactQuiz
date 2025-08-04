@@ -277,6 +277,15 @@ export default function Home() {
         isOpen={showContactForm}
         onClose={() => setShowContactForm(false)}
       />
+
+      {/* Admin Access - Discrete link at bottom */}
+      <div className="fixed bottom-4 left-4 opacity-30 hover:opacity-100 transition-opacity">
+        <Link href="/admin">
+          <button className="w-8 h-8 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center">
+            <span className="text-xs">⚙</span>
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

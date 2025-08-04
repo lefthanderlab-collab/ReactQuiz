@@ -1,11 +1,15 @@
-import { type Video, type InsertVideo, type Contact, type InsertContact } from "@shared/schema";
+import { videos, contacts, type Video, type InsertVideo, type Contact, type InsertContact } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   // Video operations
   getAllVideos(): Promise<Video[]>;
   getVideo(id: string): Promise<Video | undefined>;
   createVideo(video: InsertVideo): Promise<Video>;
+  updateVideo(id: string, video: Partial<InsertVideo>): Promise<Video>;
+  deleteVideo(id: string): Promise<void>;
   
   // Contact operations
   getAllContacts(): Promise<Contact[]>;
@@ -130,6 +134,58 @@ export class MemStorage implements IStorage {
     this.contacts.set(id, contact);
     return contact;
   }
+
+  async updateVideo(id: string, videoData: Partial<InsertVideo>): Promise<Video> {
+    const existingVideo = this.videos.get(id);
+    if (!existingVideo) {
+      throw new Error(`Video with id ${id} not found`);
+    }
+    const updatedVideo = { ...existingVideo, ...videoData };
+    this.videos.set(id, updatedVideo);
+    return updatedVideo;
+  }
+
+  async deleteVideo(id: string): Promise<void> {
+    this.videos.delete(id);
+  }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  async getAllVideos(): Promise<Video[]> {
+    return await db.select().from(videos).orderBy(videos.createdAt);
+  }
+
+  async getVideo(id: string): Promise<Video | undefined> {
+    const [video] = await db.select().from(videos).where(eq(videos.id, id));
+    return video || undefined;
+  }
+
+  async createVideo(video: InsertVideo): Promise<Video> {
+    const [newVideo] = await db.insert(videos).values(video).returning();
+    return newVideo;
+  }
+
+  async updateVideo(id: string, videoData: Partial<InsertVideo>): Promise<Video> {
+    const [updatedVideo] = await db
+      .update(videos)
+      .set(videoData)
+      .where(eq(videos.id, id))
+      .returning();
+    return updatedVideo;
+  }
+
+  async deleteVideo(id: string): Promise<void> {
+    await db.delete(videos).where(eq(videos.id, id));
+  }
+
+  async getAllContacts(): Promise<Contact[]> {
+    return await db.select().from(contacts).orderBy(contacts.createdAt);
+  }
+
+  async createContact(contact: InsertContact): Promise<Contact> {
+    const [newContact] = await db.insert(contacts).values(contact).returning();
+    return newContact;
+  }
+}
+
+export const storage = new DatabaseStorage();
