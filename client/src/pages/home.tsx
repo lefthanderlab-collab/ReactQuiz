@@ -113,55 +113,22 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Portfolio Section */}
-        <div className="glass-surface rounded-3xl p-8 mb-8">
-          {/* Section Header */}
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">Featured Portfolio</h2>
-            <p className="text-gray-600 text-lg">최신 영상 작품들을 확인해보세요</p>
-          </div>
-          
-          {/* Video Grid - 2 per row with optimal ratio */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {portfolioImages.slice(0, 6).map((video, index) => (
-              <div key={video.id} className="video-card-glass rounded-2xl overflow-hidden group">
-                <div className="aspect-video relative">
-                  <iframe
-                    src={video.vimeoUrl}
-                    className="w-full h-full"
-                    frameBorder="0"
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                    title={video.title}
-                  ></iframe>
-                </div>
-                <div className="p-6">
-                  <h3 className="font-semibold text-gray-800 mb-2 text-lg">
-                    {video.title}
-                  </h3>
-                  <p className="text-gray-600 line-clamp-2 mb-3">
-                    {video.description}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
-                      {video.category}
-                    </span>
-                  </div>
-                </div>
+        {/* Video Gallery - Clean & Minimal */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          {portfolioImages.slice(0, 6).map((video, index) => (
+            <div key={video.id} className="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="aspect-video relative">
+                <iframe
+                  src={video.vimeoUrl}
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  title={video.title}
+                ></iframe>
               </div>
-            ))}
-          </div>
-          
-          {/* See More Button */}
-          <div className="text-center mt-10">
-            <Link href="/portfolio">
-              <Button 
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-10 py-4 rounded-full text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
-              >
-                전체 포트폴리오 보기 →
-              </Button>
-            </Link>
-          </div>
+            </div>
+          ))}
         </div>
 
 

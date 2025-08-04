@@ -12,36 +12,29 @@ Preferred communication style: Simple, everyday language.
 
 - **Complete Design Overhaul**: Redesigned the application to match modern portfolio website aesthetic with blue/purple gradient background and glass morphism effects
 - **Portfolio Personalization**: Updated for "oneglass" - a female film director
-  - Added female profile image from Unsplash
+  - Added cat profile image from user uploads
   - Changed from "Motion Graphics Designer" to film director focus
   - Updated name to "oneglass" in hero section
 - **Language Updates**: Mixed Korean/English interface optimized for Korean market
-  - Korean navigation: 연락하기, 소개, 홈, 포트폴리오, 서비스
   - Korean hero message: "창의적인 영상으로 스토리를 전달합니다"
   - Korean description: "브랜드의 본질을 담은 영상 콘텐츠를 통해 감동과 메시지를 전달하는 비디오 디자이너입니다"
-  - Korean contact form and services descriptions
-- **Apple WWDC25-Inspired Design System (Latest Update)**: Implemented premium glass morphism design
+  - Korean contact form
+- **Apple WWDC25-Inspired Design System**: Implemented premium glass morphism design
   - Gradient mesh background with subtle color gradients
   - Glass morphism effects with backdrop blur and inner highlights
   - Premium surface design with sophisticated transparency layers
-  - Enhanced video cards with Apple-style glass effects and smooth hover animations
-  - Navigation glass with translucent navigation bars
-  - Profile card glass combining gradients with glass effects
-- **Major Layout Restructure**: Completely redesigned homepage layout based on user reference
-  - **Profile Introduction Section**: Dedicated section at top with larger profile image and detailed intro
-  - **2-per-Row Video Layout**: Optimized video grid displaying 2 videos per row for better viewing ratios
-  - **Enhanced Video Cards**: Larger video containers with improved aspect ratios and detailed descriptions
-  - **Separated Content Areas**: Clear distinction between profile intro and portfolio showcase
-  - **Improved Typography**: Larger, more readable text with better hierarchy
-- **Color Scheme Update**: Changed from red gradient to blue/purple gradient throughout the application
-- **Updated Services Section**: Changed to film-focused services:
-  - Film Direction (영상 연출)
-  - Video Production (영상 제작)
-  - Brand Storytelling (브랜드 스토리텔링)
-- **Enhanced Portfolio Page**: Dedicated page with larger video grid, category filtering, and glass morphism theme
-- **Korean Contact Form**: Fully localized contact modal with Korean labels and messages
-- **Navigation Integration**: Connected navigation buttons between pages with blue hover states
-- **Fixed Technical Issues**: Resolved ContactModal accessibility warnings and import path issues
+- **Minimal Video-Focused Layout (Latest Update)**: Streamlined design for maximum video visibility
+  - **Removed Navigation Header**: Eliminated fixed header for cleaner layout
+  - **Removed Services Section**: Deleted Film Direction, Video Production, Brand Storytelling cards
+  - **Simplified Video Gallery**: Clean 2-per-row grid without titles, descriptions, or category tags
+  - **Minimal Contact Section**: Only email and social media icons, removed phone number and "Follow me" text
+  - **Direct Contact Form**: Replaced modal with inline form for immediate message submission
+- **Profile Introduction Section**: Dedicated section at top with cat profile image and detailed intro
+- **Social Media Integration**: Instagram, YouTube, Facebook, Twitter, LinkedIn icons with external links
+- **Color Scheme**: Blue/purple gradient throughout the application
+- **Enhanced Portfolio Page**: Dedicated page with larger video grid and glass morphism theme
+- **Korean Contact Form**: Fully localized contact form with Korean labels and validation
+- **Fixed Technical Issues**: Resolved API call errors and import path issues
 
 ## System Architecture
 
