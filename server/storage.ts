@@ -7,6 +7,7 @@ export interface IStorage {
   getAllVideos(): Promise<Video[]>;
   getVideo(id: string): Promise<Video | undefined>;
   createVideo(video: InsertVideo): Promise<Video>;
+  updateVideo(id: string, video: InsertVideo): Promise<Video | undefined>;
   deleteVideo(id: string): Promise<boolean>;
   
   // Contact operations
@@ -32,9 +33,18 @@ export class DatabaseStorage implements IStorage {
     return newVideo;
   }
 
+  async updateVideo(id: string, insertVideo: InsertVideo): Promise<Video | undefined> {
+    const [updatedVideo] = await db
+      .update(videos)
+      .set(insertVideo)
+      .where(eq(videos.id, id))
+      .returning();
+    return updatedVideo || undefined;
+  }
+
   async deleteVideo(id: string): Promise<boolean> {
     const result = await db.delete(videos).where(eq(videos.id, id));
-    return result.rowCount !== undefined && result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   async getAllContacts(): Promise<Contact[]> {

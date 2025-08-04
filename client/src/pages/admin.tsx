@@ -10,13 +10,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Trash2, Plus, Eye, ArrowLeft } from "lucide-react";
+import { Trash2, Plus, Eye, ArrowLeft, Edit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 
 export default function AdminPage() {
   const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
+  const [editingVideo, setEditingVideo] = useState<Video | null>(null);
 
   // Fetch all videos
   const { data: videos = [], isLoading } = useQuery<Video[]>({
@@ -39,6 +40,28 @@ export default function AdminPage() {
       toast({
         title: "오류",
         description: "영상 추가에 실패했습니다.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Update video mutation
+  const updateVideoMutation = useMutation({
+    mutationFn: ({ id, ...videoData }: { id: string } & InsertVideo) => 
+      apiRequest(`/api/videos/${id}`, "PUT", videoData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/videos"] });
+      setEditingVideo(null);
+      form.reset();
+      toast({
+        title: "성공",
+        description: "영상이 성공적으로 수정되었습니다.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "오류",
+        description: "영상 수정에 실패했습니다.",
         variant: "destructive",
       });
     },
@@ -75,7 +98,28 @@ export default function AdminPage() {
   });
 
   const onSubmit = (data: InsertVideo) => {
-    createVideoMutation.mutate(data);
+    if (editingVideo) {
+      updateVideoMutation.mutate({ id: editingVideo.id, ...data });
+    } else {
+      createVideoMutation.mutate(data);
+    }
+  };
+
+  const handleEditVideo = (video: Video) => {
+    setEditingVideo(video);
+    setShowForm(true);
+    form.reset({
+      title: video.title,
+      description: video.description,
+      vimeoUrl: video.vimeoUrl,
+      category: video.category,
+    });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingVideo(null);
+    setShowForm(false);
+    form.reset();
   };
 
   // Function to get video thumbnail URL
@@ -144,11 +188,13 @@ export default function AdminPage() {
           </Button>
         </div>
 
-        {/* Add Video Form */}
+        {/* Add/Edit Video Form */}
         {showForm && (
           <Card className="mb-8 bg-white/10 backdrop-blur-sm border-white/20">
             <CardHeader>
-              <CardTitle className="text-white">새 영상 추가</CardTitle>
+              <CardTitle className="text-white">
+                {editingVideo ? "영상 수정" : "새 영상 추가"}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Form {...form}>
@@ -229,15 +275,19 @@ export default function AdminPage() {
                   <div className="flex gap-4">
                     <Button
                       type="submit"
-                      disabled={createVideoMutation.isPending}
+                      disabled={createVideoMutation.isPending || updateVideoMutation.isPending}
                       className="bg-blue-600 hover:bg-blue-700"
                     >
-                      {createVideoMutation.isPending ? "추가 중..." : "영상 추가"}
+                      {editingVideo ? (
+                        updateVideoMutation.isPending ? "수정 중..." : "영상 수정"
+                      ) : (
+                        createVideoMutation.isPending ? "추가 중..." : "영상 추가"
+                      )}
                     </Button>
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => setShowForm(false)}
+                      onClick={handleCancelEdit}
                       className="border-white/20 text-white hover:bg-white/10"
                     >
                       취소
@@ -319,6 +369,14 @@ export default function AdminPage() {
                       >
                         <Eye className="w-4 h-4 mr-1" />
                         미리보기
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleEditVideo(video)}
+                        className="border-white/20 text-white hover:bg-white/10"
+                      >
+                        <Edit className="w-4 h-4" />
                       </Button>
                       <Button
                         size="sm"

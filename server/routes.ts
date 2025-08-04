@@ -75,6 +75,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update a video
+  app.put("/api/videos/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const validatedData = insertVideoSchema.parse(req.body);
+      const video = await storage.updateVideo(id, validatedData);
+      
+      if (!video) {
+        return res.status(404).json({ message: "Video not found" });
+      }
+      
+      res.json(video);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid video data", 
+          errors: error.errors 
+        });
+      }
+      res.status(500).json({ message: "Failed to update video" });
+    }
+  });
+
   // Delete a video
   app.delete("/api/videos/:id", async (req, res) => {
     try {
