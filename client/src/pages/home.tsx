@@ -198,25 +198,13 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Profile Introduction Section */}
         <div ref={profileRef} className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-8 mb-8 shadow-lg">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            {/* Profile Image */}
-            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white/30 shadow-lg">
-              <img 
-                src="@assets/KakaoTalk_20250801_205908964_1754049698303.jpg" 
-                alt="oneglass 프로필" 
-                className="w-full h-full object-cover object-center"
-              />
-            </div>
-            
-            {/* Profile Content */}
-            <div className="flex-1 text-center md:text-left">
-              <h1 className="text-4xl font-bold text-white mb-2">oneglass</h1>
-              <p className="text-xl text-white/90 font-semibold mb-4">Film Director & Video Creator</p>
-              <p className="text-white/80 text-lg leading-relaxed max-w-2xl">
-                창의적인 영상으로 스토리를 전달합니다. 브랜드의 본질을 담은 영상 콘텐츠를 통해 
-                감동과 메시지를 전달하는 비디오 디자이너입니다.
-              </p>
-            </div>
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-white mb-2">oneglass</h1>
+            <p className="text-xl text-white/90 font-semibold mb-4">Film Director & Video Creator</p>
+            <p className="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto">
+              창의적인 영상으로 스토리를 전달합니다. 브랜드의 본질을 담은 영상 콘텐츠를 통해 
+              감동과 메시지를 전달하는 비디오 디자이너입니다.
+            </p>
           </div>
         </div>
 
