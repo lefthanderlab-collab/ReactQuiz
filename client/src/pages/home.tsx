@@ -253,63 +253,11 @@ export default function Home() {
             </div>
           </form>
           
-          {/* Contact Info & Social Media */}
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            {/* Contact Info */}
-            <div className="flex justify-center items-center mb-6">
-              <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-blue-500" />
-                <span className="text-sm text-gray-600">oneglass@example.com</span>
-              </div>
-            </div>
-            
-            {/* Social Media Icons */}
-            <div className="flex justify-center items-center gap-4">
-              
-              <a 
-                href="https://instagram.com/oneglass" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              
-              <a 
-                href="https://youtube.com/@oneglass" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200"
-              >
-                <Youtube className="w-5 h-5" />
-              </a>
-              
-              <a 
-                href="https://facebook.com/oneglass" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200"
-              >
-                <FaFacebookF className="w-4 h-4" />
-              </a>
-              
-              <a 
-                href="https://twitter.com/oneglass" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200"
-              >
-                <FaTwitter className="w-4 h-4" />
-              </a>
-              
-              <a 
-                href="https://linkedin.com/in/oneglass" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200"
-              >
-                <FaLinkedinIn className="w-4 h-4" />
-              </a>
+          {/* Contact Info */}
+          <div className="mt-8 pt-8 border-t border-gray-200 text-center">
+            <div className="flex items-center justify-center gap-2">
+              <Mail className="w-4 h-4 text-blue-500" />
+              <span className="text-sm text-gray-600">oneglass@example.com</span>
             </div>
           </div>
         </div>
