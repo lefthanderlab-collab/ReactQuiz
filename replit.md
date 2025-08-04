@@ -23,18 +23,26 @@ Preferred communication style: Simple, everyday language.
   - Gradient mesh background with subtle color gradients
   - Glass morphism effects with backdrop blur and inner highlights
   - Premium surface design with sophisticated transparency layers
-- **Minimal Video-Focused Layout (Latest Update)**: Streamlined design for maximum video visibility
+- **Minimal Video-Focused Layout**: Streamlined design for maximum video visibility
   - **Removed Navigation Header**: Eliminated fixed header for cleaner layout
   - **Removed Services Section**: Deleted Film Direction, Video Production, Brand Storytelling cards
   - **Simplified Video Gallery**: Clean 2-per-row grid without titles, descriptions, or category tags
   - **Minimal Contact Section**: Only email and social media icons, removed phone number and "Follow me" text
   - **Direct Contact Form**: Replaced modal with inline form for immediate message submission
+- **Video Management System (Latest Update)**: Complete admin functionality for portfolio management
+  - **PostgreSQL Database**: Migrated from in-memory storage to persistent database with proper schema
+  - **Admin Interface**: Dedicated `/admin` page with comprehensive video management tools
+  - **Settings Icon Navigation**: Floating settings (⚙️) button on homepage and portfolio page for quick admin access
+  - **CRUD Operations**: Full Create, Read, Update, Delete functionality for videos
+  - **Korean Admin UI**: Fully localized admin interface with Korean labels and confirmations
+  - **Glass Morphism Admin Design**: Consistent visual theme across all pages including admin
+  - **Real-time Updates**: Automatic refresh of video galleries after admin changes
 - **Profile Introduction Section**: Dedicated section at top with cat profile image and detailed intro
 - **Social Media Integration**: Instagram, YouTube, Facebook, Twitter, LinkedIn icons with external links
 - **Color Scheme**: Blue/purple gradient throughout the application
 - **Enhanced Portfolio Page**: Dedicated page with larger video grid and glass morphism theme
 - **Korean Contact Form**: Fully localized contact form with Korean labels and validation
-- **Fixed Technical Issues**: Resolved API call errors and import path issues
+- **Navigation Improvements**: Added floating navigation buttons with hover effects and tooltips
 
 ## System Architecture
 

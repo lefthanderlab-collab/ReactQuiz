@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Video } from "@shared/schema";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft, ExternalLink, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Portfolio() {
@@ -58,6 +58,19 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen gradient-mesh">
+      {/* Admin Settings Button */}
+      <div className="fixed top-6 right-6 z-50">
+        <Link href="/admin">
+          <Button
+            size="sm"
+            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+            title="영상 관리"
+          >
+            <Settings className="w-5 h-5" />
+          </Button>
+        </Link>
+      </div>
+
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8 glass-card rounded-2xl p-6">

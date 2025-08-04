@@ -10,8 +10,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Trash2, Plus, Eye } from "lucide-react";
+import { Trash2, Plus, Eye, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "wouter";
 
 export default function AdminPage() {
   const { toast } = useToast();
@@ -85,6 +86,19 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
+      {/* Back to Home Button */}
+      <div className="fixed top-6 left-6 z-50">
+        <Link href="/">
+          <Button
+            size="sm"
+            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+            title="홈으로 돌아가기"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+        </Link>
+      </div>
+
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4">영상 관리</h1>

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Video } from "@shared/schema";
-import { MessageCircle, Send, Instagram, Youtube, Mail, Phone } from "lucide-react";
+import { MessageCircle, Send, Instagram, Youtube, Mail, Phone, Settings } from "lucide-react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -118,10 +118,21 @@ export default function Home() {
 
   return (
     <div className="min-h-screen gradient-mesh">
+      {/* Admin Settings Button */}
+      <div className="fixed top-6 right-6 z-50">
+        <Link href="/admin">
+          <Button
+            size="sm"
+            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+            title="영상 관리"
+          >
+            <Settings className="w-5 h-5" />
+          </Button>
+        </Link>
+      </div>
+
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-6 py-8">
-
-
         {/* Profile Introduction Section */}
         <div ref={profileRef} className="glass-surface rounded-3xl p-8 mb-8">
           <div className="flex flex-col md:flex-row items-center gap-8">
