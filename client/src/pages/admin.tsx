@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Video, InsertVideo } from "@shared/schema";
@@ -338,6 +338,20 @@ export default function AdminPage() {
                           `)}`;
                         }}
                       />
+                      {/* Edit button - top right corner */}
+                      <div className="absolute top-2 right-2 z-10">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditVideo(video);
+                          }}
+                          className="w-8 h-8 p-0 bg-green-500/90 hover:bg-green-600 border-green-400 text-white rounded-full shadow-lg backdrop-blur-sm"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      </div>
                       {/* Play button overlay */}
                       <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
                         <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center">
@@ -369,14 +383,6 @@ export default function AdminPage() {
                       >
                         <Eye className="w-4 h-4 mr-1" />
                         미리보기
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleEditVideo(video)}
-                        className="border-white/20 text-white hover:bg-white/10"
-                      >
-                        <Edit className="w-4 h-4" />
                       </Button>
                       <Button
                         size="sm"
