@@ -245,20 +245,15 @@ export default function Home() {
           {/* Contact Info & Social Media */}
           <div className="mt-8 pt-8 border-t border-gray-200">
             {/* Contact Info */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
+            <div className="flex justify-center items-center mb-6">
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-blue-500" />
                 <span className="text-sm text-gray-600">oneglass@example.com</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-purple-500" />
-                <span className="text-sm text-gray-600">+82 10-1234-5678</span>
               </div>
             </div>
             
             {/* Social Media Icons */}
             <div className="flex justify-center items-center gap-4">
-              <span className="text-sm text-gray-600 mr-2">Follow me:</span>
               
               <a 
                 href="https://instagram.com/oneglass" 
