@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { Video } from "@shared/schema";
+import { Video, SiteSettings } from "@shared/schema";
 import { ArrowLeft, ExternalLink, Settings, Play, Pause, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -17,6 +17,10 @@ export default function Portfolio() {
 
   const { data: videos = [], isLoading } = useQuery<Video[]>({
     queryKey: ["/api/videos"],
+  });
+
+  const { data: siteSettings } = useQuery<SiteSettings>({
+    queryKey: ["/api/site-settings"],
   });
 
   const categories = ["all", ...Array.from(new Set(videos.map(video => video.category)))];
@@ -147,7 +151,9 @@ export default function Portfolio() {
             </Button>
           </Link>
           
-          <h1 className="text-3xl font-bold text-white">전체 프로젝트</h1>
+          <h1 className="text-3xl font-bold text-white">
+            {siteSettings?.profileName ? `${siteSettings.profileName}의 작품` : "전체 프로젝트"}
+          </h1>
           
           <div className="w-24"></div>
         </div>

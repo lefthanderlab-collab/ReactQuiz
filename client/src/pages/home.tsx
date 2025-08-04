@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { Video } from "@shared/schema";
+import { Video, SiteSettings } from "@shared/schema";
 import { MessageCircle, Send, Instagram, Youtube, Mail, Phone, Settings, Play, Pause, Volume2, ExternalLink } from "lucide-react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
@@ -64,6 +64,10 @@ export default function Home() {
   
   const { data: videos = [], isLoading } = useQuery<Video[]>({
     queryKey: ["/api/videos"],
+  });
+
+  const { data: siteSettings } = useQuery<SiteSettings>({
+    queryKey: ["/api/site-settings"],
   });
 
   const contactMutation = useMutation({
@@ -199,11 +203,14 @@ export default function Home() {
         {/* Profile Introduction Section */}
         <div ref={profileRef} className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-8 mb-8 shadow-lg">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-white mb-2">oneglass</h1>
-            <p className="text-xl text-white/90 font-semibold mb-4">Film Director & Video Creator</p>
+            <h1 className="text-4xl font-bold text-white mb-2">
+              {siteSettings?.profileName || "oneglass"}
+            </h1>
+            <p className="text-xl text-white/90 font-semibold mb-4">
+              {siteSettings?.profileTitle || "Film Director & Video Creator"}
+            </p>
             <p className="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto">
-              창의적인 영상으로 스토리를 전달합니다. 브랜드의 본질을 담은 영상 콘텐츠를 통해 
-              감동과 메시지를 전달하는 비디오 디자이너입니다.
+              {siteSettings?.profileDescription || "창의적인 영상으로 스토리를 전달합니다. 브랜드의 본질을 담은 영상 콘텐츠를 통해 감동과 메시지를 전달하는 비디오 디자이너입니다."}
             </p>
           </div>
         </div>
@@ -417,7 +424,9 @@ export default function Home() {
           <div className="mt-8 pt-8 border-t border-gray-200 text-center">
             <div className="flex items-center justify-center gap-2">
               <Mail className="w-4 h-4 text-blue-500" />
-              <span className="text-sm text-gray-600">oneglass@example.com</span>
+              <span className="text-sm text-gray-600">
+                {siteSettings?.contactEmail || "oneglass@example.com"}
+              </span>
             </div>
           </div>
         </div>
