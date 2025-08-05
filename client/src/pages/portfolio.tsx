@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Video, SiteSettings } from "@shared/schema";
-import { ArrowLeft, ExternalLink, Settings, Play, Pause, Volume2 } from "lucide-react";
+import { ArrowLeft, Home, ExternalLink, Settings, Play, Pause, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Portfolio() {
@@ -145,13 +145,12 @@ export default function Portfolio() {
               variant="ghost" 
               className="text-white hover:bg-white/20 hover:text-white"
             >
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              홈
+              <Home className="w-5 h-5" />
             </Button>
           </Link>
           
           <h1 className="text-3xl font-bold text-white">
-            {siteSettings?.profileName ? `${siteSettings.profileName}의 작품` : "전체 프로젝트"}
+            VIEW ALL
           </h1>
           
           <div className="w-24"></div>
