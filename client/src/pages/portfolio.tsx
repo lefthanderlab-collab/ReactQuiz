@@ -301,13 +301,7 @@ export default function Portfolio() {
           ))}
         </div>
 
-        {/* Results Count */}
-        <div className="text-center bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-4 shadow-lg">
-          <p className="text-lg text-white">
-            {filteredVideos.length}개의 프로젝트
-            {selectedCategory !== "all" && ` (${selectedCategory})`}
-          </p>
-        </div>
+        
       </div>
     </div>
   );
