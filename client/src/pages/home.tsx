@@ -10,9 +10,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import ContactModal from "../components/contact-modal";
+import AdminAuthModal from "../components/admin-auth-modal";
 
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false);
+  const [showAdminAuth, setShowAdminAuth] = useState(false);
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
@@ -166,15 +168,14 @@ export default function Home() {
     <div className="min-h-screen gradient-mesh">
       {/* Admin Settings Button */}
       <div className="fixed top-6 right-6 z-50">
-        <Link href="/admin">
-          <Button
-            size="sm"
-            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
-            title="영상 관리"
-          >
-            <Settings className="w-5 h-5" />
-          </Button>
-        </Link>
+        <Button
+          size="sm"
+          className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+          title="영상 관리"
+          onClick={() => setShowAdminAuth(true)}
+        >
+          <Settings className="w-5 h-5" />
+        </Button>
       </div>
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-6 py-8">

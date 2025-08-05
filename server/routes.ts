@@ -8,6 +8,14 @@ import { storage } from "./storage";
 import { insertContactSchema, insertVideoSchema, insertSiteSettingsSchema } from "@shared/schema";
 import { z } from "zod";
 
+// Admin session middleware
+const isAdminAuthenticated = (req: any, res: any, next: any) => {
+  if (req.session?.isAdmin) {
+    return next();
+  }
+  return res.status(401).json({ error: "관리자 인증이 필요합니다" });
+};
+
 // Configure multer for thumbnail uploads
 const storage_multer = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -40,6 +48,23 @@ const upload = multer({
 export async function registerRoutes(app: Express): Promise<Server> {
   // Serve static thumbnail files
   app.use('/uploads', express.static('uploads'));
+
+  // Admin authentication endpoint
+  app.post('/api/admin/auth', (req, res) => {
+    const { password } = req.body;
+    
+    if (password === '@2dbflWkd') {
+      req.session.isAdmin = true;
+      res.json({ success: true });
+    } else {
+      res.status(401).json({ error: '비밀번호가 올바르지 않습니다' });
+    }
+  });
+
+  // Admin status check endpoint
+  app.get('/api/admin/status', (req, res) => {
+    res.json({ isAuthenticated: !!req.session?.isAdmin });
+  });
 
   // Upload thumbnail endpoint
   app.post('/api/upload-thumbnail', upload.single('thumbnail'), (req, res) => {
