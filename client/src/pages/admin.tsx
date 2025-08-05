@@ -492,7 +492,7 @@ export default function AdminPage() {
                       type="button"
                       variant="outline"
                       onClick={handleCancelEdit}
-                      className="border-white/20 text-white hover:bg-white/10"
+                      className="border-white/20 text-white hover:bg-white/10 bg-[#2563eb]"
                     >
                       취소
                     </Button>
