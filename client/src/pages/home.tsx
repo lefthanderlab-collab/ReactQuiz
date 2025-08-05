@@ -176,7 +176,6 @@ export default function Home() {
           </Button>
         </Link>
       </div>
-
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Profile Introduction Section */}
@@ -336,9 +335,7 @@ export default function Home() {
           <Link href="/portfolio">
             <Button 
               className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-10 py-4 rounded-full text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
-            >
-              영상 전체보기 →
-            </Button>
+            >VIEW ALL</Button>
           </Link>
         </div>
 
@@ -435,7 +432,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
       {/* Floating Contact Button */}
       <button
         onClick={() => setShowContactForm(true)}
@@ -444,7 +440,6 @@ export default function Home() {
       >
         <MessageCircle className="w-6 h-6" />
       </button>
-
       {/* Contact Form Modal */}
       <ContactModal
         isOpen={showContactForm}
