@@ -19,6 +19,9 @@ export default function Home() {
     message: ""
   });
   
+  // Animation states
+  const [hasLoaded, setHasLoaded] = useState(false);
+  
   // Video player states
   const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
@@ -28,38 +31,14 @@ export default function Home() {
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
-  // Animation refs
-  const profileRef = useRef<HTMLDivElement>(null);
-  const videoGridRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLDivElement>(null);
-  const contactRef = useRef<HTMLDivElement>(null);
 
-  // Intersection Observer for scroll animations
+  // Initial load animation - Apple style sequential entrance
   useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
+    const timer = setTimeout(() => {
+      setHasLoaded(true);
+    }, 100); // Small delay to ensure DOM is ready
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-in-up');
-          entry.target.classList.remove('opacity-0', 'translate-y-8');
-        }
-      });
-    }, observerOptions);
-
-    const elements = [profileRef.current, videoGridRef.current, buttonRef.current, contactRef.current];
-    elements.forEach((el) => {
-      if (el) {
-        el.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-700');
-        observer.observe(el);
-      }
-    });
-
-    return () => observer.disconnect();
+    return () => clearTimeout(timer);
   }, []);
   
   const { data: videos = [], isLoading } = useQuery<Video[]>({
@@ -201,7 +180,12 @@ export default function Home() {
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Profile Introduction Section */}
-        <div ref={profileRef} className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-8 mb-8 shadow-lg">
+        <div 
+          className={`bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-8 mb-8 shadow-lg transform transition-all duration-1000 ease-out ${
+            hasLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+          style={{ transitionDelay: hasLoaded ? '200ms' : '0ms' }}
+        >
           <div className="text-center">
             <h1 className="text-4xl font-bold text-white mb-2">
               {siteSettings?.profileName || "oneglass"}
@@ -216,7 +200,12 @@ export default function Home() {
         </div>
 
         {/* Video Gallery - Interactive Hover Player */}
-        <div ref={videoGridRef} className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
+        <div 
+          className={`grid grid-cols-2 md:grid-cols-2 gap-4 mb-8 transform transition-all duration-1000 ease-out ${
+            hasLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+          style={{ transitionDelay: hasLoaded ? '600ms' : '0ms' }}
+        >
           {(() => {
             const featuredVideos = portfolioImages.filter(video => video.isFeatured === "true");
             const videosToShow = featuredVideos.length > 0 ? featuredVideos : portfolioImages.slice(0, 4);
@@ -338,7 +327,12 @@ export default function Home() {
         </div>
 
         {/* View All Videos Button */}
-        <div ref={buttonRef} className="text-center mb-12">
+        <div 
+          className={`text-center mb-12 transform transition-all duration-1000 ease-out ${
+            hasLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+          style={{ transitionDelay: hasLoaded ? '1000ms' : '0ms' }}
+        >
           <Link href="/portfolio">
             <Button 
               className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-10 py-4 rounded-full text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200"
@@ -348,10 +342,13 @@ export default function Home() {
           </Link>
         </div>
 
-
-
         {/* Contact Section */}
-        <div ref={contactRef} className="glass-surface rounded-3xl p-8 mb-8">
+        <div 
+          className={`glass-surface rounded-3xl p-8 mb-8 transform transition-all duration-1000 ease-out ${
+            hasLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+          style={{ transitionDelay: hasLoaded ? '1400ms' : '0ms' }}
+        >
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
               {siteSettings?.contactTitle || "연락하기"}
