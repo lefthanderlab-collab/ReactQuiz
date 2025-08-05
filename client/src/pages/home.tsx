@@ -220,7 +220,7 @@ export default function Home() {
           {(() => {
             const featuredVideos = portfolioImages.filter(video => video.isFeatured === "true");
             const videosToShow = featuredVideos.length > 0 ? featuredVideos : portfolioImages.slice(0, 4);
-            return videosToShow.slice(0, 4);
+            return videosToShow;
           })().map((video, index) => (
             <div 
               key={video.id} 

@@ -37,6 +37,10 @@ Preferred communication style: Simple, everyday language.
   - **Korean Admin UI**: Fully localized admin interface with Korean labels and confirmations
   - **Glass Morphism Admin Design**: Consistent visual theme across all pages including admin
   - **Real-time Updates**: Automatic refresh of video galleries after admin changes
+  - **Featured Video Selection**: Admin can select unlimited videos to display on homepage via toggle buttons
+    - Homepage shows all videos marked as "featured" in admin panel
+    - No 4-video limit - displays all selected featured videos
+    - Fallback to first 4 videos when no featured videos are selected
 - **Profile Introduction Section**: Dedicated section at top with cat profile image and detailed intro
 - **Social Media Integration**: Instagram, YouTube, Facebook, Twitter, LinkedIn icons with external links
 - **Color Scheme**: Blue/purple gradient throughout the application
