@@ -284,7 +284,7 @@ export default function Portfolio() {
                   )}
 
                   {/* Category badge */}
-                  <div className="absolute top-2 right-2">
+                  <div className="absolute bottom-2 right-2">
                     <span className={`text-xs px-2 py-1 rounded-full text-white font-medium ${getCategoryColor(video.category)} shadow-lg`}>
                       {video.category}
                     </span>
