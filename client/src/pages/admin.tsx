@@ -238,17 +238,17 @@ export default function AdminPage() {
 
   // Load site settings into form when data is available
   useEffect(() => {
-    if (siteSettings && showSiteSettings) {
+    if (siteSettings) {
       settingsForm.reset({
-        profileName: siteSettings.profileName,
-        profileTitle: siteSettings.profileTitle,
-        profileDescription: siteSettings.profileDescription,
-        contactTitle: siteSettings.contactTitle,
-        contactDescription: siteSettings.contactDescription,
-        contactEmail: siteSettings.contactEmail,
+        profileName: siteSettings.profileName || "",
+        profileTitle: siteSettings.profileTitle || "",
+        profileDescription: siteSettings.profileDescription || "",
+        contactTitle: siteSettings.contactTitle || "",
+        contactDescription: siteSettings.contactDescription || "",
+        contactEmail: siteSettings.contactEmail || "",
       });
     }
-  }, [siteSettings, showSiteSettings, settingsForm]);
+  }, [siteSettings, settingsForm]);
 
   const handleEditVideo = (video: Video) => {
     setEditingVideo(video);
