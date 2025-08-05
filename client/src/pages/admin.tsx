@@ -903,7 +903,7 @@ export default function AdminPage() {
                           setNewPassword("");
                           setConfirmPassword("");
                         }}
-                        className="border-white/20 text-white hover:bg-white/10"
+                        className="bg-blue-600 hover:bg-blue-700 text-white border-blue-600"
                       >
                         취소
                       </Button>
