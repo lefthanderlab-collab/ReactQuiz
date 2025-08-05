@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Video, SiteSettings } from "@shared/schema";
@@ -24,6 +24,11 @@ export default function Portfolio() {
   const { data: siteSettings } = useQuery<SiteSettings>({
     queryKey: ["/api/site-settings"],
   });
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const categories = ["all", ...Array.from(new Set(videos.map(video => video.category)))];
   
@@ -140,8 +145,8 @@ export default function Portfolio() {
       </div>
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-6 shadow-lg">
-          <Link href="/">
+        <div className="flex items-center justify-center mb-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-6 shadow-lg relative">
+          <Link href="/" className="absolute left-6">
             <Button 
               variant="ghost" 
               className="text-white hover:bg-white/20 hover:text-white"
@@ -150,11 +155,9 @@ export default function Portfolio() {
             </Button>
           </Link>
           
-          <h1 className="font-bold text-white text-[24px] text-center flex-1">
+          <h1 className="font-bold text-white text-[24px] text-center">
             VIEW ALL
           </h1>
-          
-          <div className="w-24"></div>
         </div>
 
         {/* Category Filter */}
