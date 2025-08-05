@@ -542,8 +542,13 @@ export default function AdminPage() {
                           `)}`;
                         }}
                       />
-                      {/* Edit button - top right corner */}
-                      <div className="absolute top-2 right-2 z-10">
+                      {/* Category and Edit button - top right corner */}
+                      <div className="absolute top-2 right-2 z-10 flex flex-col gap-1 items-end">
+                        {/* Category badge */}
+                        <div className="bg-blue-500/90 backdrop-blur-sm border border-blue-400 text-white text-xs px-2 py-1 rounded-full shadow-lg">
+                          {video.category}
+                        </div>
+                        {/* Edit button */}
                         <Button
                           size="sm"
                           variant="outline"
@@ -567,9 +572,6 @@ export default function AdminPage() {
                     <div className="space-y-2">
                       <p className="text-blue-200 text-sm line-clamp-3">
                         {video.description}
-                      </p>
-                      <p className="text-blue-300 text-xs">
-                        카테고리: {video.category}
                       </p>
                       {video.createdAt && (
                         <p className="text-blue-300 text-xs">
