@@ -248,7 +248,9 @@ export default function AdminPage() {
         contactEmail: siteSettings.contactEmail || "",
       });
     }
-  }, [siteSettings, settingsForm]);
+  }, [siteSettings]);
+
+
 
   const handleEditVideo = (video: Video) => {
     setEditingVideo(video);
@@ -726,6 +728,7 @@ export default function AdminPage() {
                               <FormControl>
                                 <Input
                                   {...field}
+                                  value={field.value || siteSettings?.profileName || ""}
                                   placeholder="프로필 이름을 입력하세요"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                                 />
@@ -744,6 +747,7 @@ export default function AdminPage() {
                               <FormControl>
                                 <Input
                                   {...field}
+                                  value={field.value || siteSettings?.profileTitle || ""}
                                   placeholder="예: 영화 감독, 비디오 디자이너"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                                 />
@@ -762,6 +766,7 @@ export default function AdminPage() {
                               <FormControl>
                                 <Textarea
                                   {...field}
+                                  value={field.value || siteSettings?.profileDescription || ""}
                                   placeholder="자신을 소개하는 내용을 입력하세요"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-h-[100px]"
                                 />
@@ -784,6 +789,7 @@ export default function AdminPage() {
                               <FormControl>
                                 <Input
                                   {...field}
+                                  value={field.value || siteSettings?.contactTitle || ""}
                                   placeholder="예: 문의하기, Contact"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                                 />
@@ -802,6 +808,7 @@ export default function AdminPage() {
                               <FormControl>
                                 <Textarea
                                   {...field}
+                                  value={field.value || siteSettings?.contactDescription || ""}
                                   placeholder="연락처 섹션에 표시될 설명을 입력하세요"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                                 />
@@ -820,6 +827,7 @@ export default function AdminPage() {
                               <FormControl>
                                 <Input
                                   {...field}
+                                  value={field.value || siteSettings?.contactEmail || ""}
                                   type="email"
                                   placeholder="contact@example.com"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
