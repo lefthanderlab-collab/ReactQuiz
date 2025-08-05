@@ -8,6 +8,13 @@ import { storage } from "./storage";
 import { insertContactSchema, insertVideoSchema, insertSiteSettingsSchema } from "@shared/schema";
 import { z } from "zod";
 
+// Extend express session
+declare module 'express-session' {
+  interface SessionData {
+    isAdmin?: boolean;
+  }
+}
+
 // Admin session middleware
 const isAdminAuthenticated = (req: any, res: any, next: any) => {
   if (req.session?.isAdmin) {
@@ -54,7 +61,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const { password } = req.body;
     
     if (password === '@2dbflWkd') {
-      req.session.isAdmin = true;
+      req.session!.isAdmin = true;
       res.json({ success: true });
     } else {
       res.status(401).json({ error: '비밀번호가 올바르지 않습니다' });
