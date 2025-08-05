@@ -201,7 +201,7 @@ export default function Home() {
 
         {/* Video Gallery - Interactive Hover Player */}
         <div 
-          className={`grid grid-cols-2 md:grid-cols-2 gap-4 mb-8 transform transition-all duration-1000 ease-out ${
+          className={`grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 transform transition-all duration-1000 ease-out ${
             hasLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}
           style={{ transitionDelay: hasLoaded ? '600ms' : '0ms' }}
