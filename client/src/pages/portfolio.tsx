@@ -137,7 +137,6 @@ export default function Portfolio() {
           </Button>
         </Link>
       </div>
-
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-6 shadow-lg">
@@ -164,11 +163,7 @@ export default function Portfolio() {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                selectedCategory === category
-                  ? "glass-surface text-blue-600"
-                  : "glass-card text-white hover:bg-white/30"
-              }`}
+              className="px-4 py-2 rounded-full transition-all duration-200 glass-card hover:bg-white/30 text-[#737373] ml-[2px] mr-[2px] pt-[9px] pb-[9px] font-bold text-[16px]"
             >
               {category === "all" ? "전체" : category}
             </button>
