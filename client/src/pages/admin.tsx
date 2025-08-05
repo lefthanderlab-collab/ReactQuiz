@@ -458,7 +458,7 @@ export default function AdminPage() {
                         type="button"
                         variant="outline"
                         onClick={() => fileInputRef.current?.click()}
-                        className="border-white/20 text-white hover:bg-white/10"
+                        className="border-white/20 text-white hover:bg-white/10 bg-[#2563eb]"
                       >
                         <Upload className="w-4 h-4 mr-2" />
                         썸네일 업로드
