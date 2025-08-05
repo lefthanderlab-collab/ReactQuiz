@@ -446,6 +446,16 @@ export default function Home() {
         isOpen={showContactForm}
         onClose={() => setShowContactForm(false)}
       />
+      
+      {/* Admin Auth Modal */}
+      <AdminAuthModal
+        isOpen={showAdminAuth}
+        onClose={() => setShowAdminAuth(false)}
+        onAuth={() => {
+          // Navigate to admin page after successful authentication
+          window.location.href = '/admin';
+        }}
+      />
     </div>
   );
 }

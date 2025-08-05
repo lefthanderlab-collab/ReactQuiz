@@ -4,9 +4,11 @@ import { Link } from "wouter";
 import { Video, SiteSettings } from "@shared/schema";
 import { ArrowLeft, Home, ExternalLink, Settings, Play, Pause, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import AdminAuthModal from "../components/admin-auth-modal";
 
 export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [showAdminAuth, setShowAdminAuth] = useState(false);
   
   // Video player states
   const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
@@ -127,15 +129,14 @@ export default function Portfolio() {
     <div className="min-h-screen gradient-mesh">
       {/* Admin Settings Button */}
       <div className="fixed top-6 right-6 z-50">
-        <Link href="/admin">
-          <Button
-            size="sm"
-            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
-            title="영상 관리"
-          >
-            <Settings className="w-5 h-5" />
-          </Button>
-        </Link>
+        <Button
+          size="sm"
+          className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+          title="영상 관리"
+          onClick={() => setShowAdminAuth(true)}
+        >
+          <Settings className="w-5 h-5" />
+        </Button>
       </div>
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
@@ -302,6 +303,16 @@ export default function Portfolio() {
 
         
       </div>
+      
+      {/* Admin Auth Modal */}
+      <AdminAuthModal
+        isOpen={showAdminAuth}
+        onClose={() => setShowAdminAuth(false)}
+        onAuth={() => {
+          // Navigate to admin page after successful authentication
+          window.location.href = '/admin';
+        }}
+      />
     </div>
   );
 }
