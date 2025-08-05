@@ -11,9 +11,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Trash2, Plus, Eye, ArrowLeft, Edit, Settings, Upload, X, Users, Key } from "lucide-react";
+import { Trash2, Plus, Eye, ArrowLeft, Edit, Settings, Upload, X, Users, Key, BarChart3, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
+import { AnalyticsChart } from "@/components/analytics-chart";
+import { getAnalyticsData, getDateRange, type AnalyticsData } from "@/services/analyticsService";
 
 export default function AdminPage() {
   const { toast } = useToast();
@@ -27,6 +29,16 @@ export default function AdminPage() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+  
+  // Analytics states
+  const [analyticsPeriod, setAnalyticsPeriod] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('daily');
+  const [chartType, setChartType] = useState<'line' | 'bar'>('line');
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>({
+    visits: [],
+    totalVisits: 0,
+    countryStats: []
+  });
+  const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(false);
 
   // Fetch all videos
   const { data: videos = [], isLoading } = useQuery<Video[]>({
@@ -363,6 +375,30 @@ export default function AdminPage() {
     changePasswordMutation.mutate({ newPassword });
   };
 
+  // Load analytics data
+  const loadAnalyticsData = async (period: 'daily' | 'weekly' | 'monthly' | 'yearly') => {
+    setIsLoadingAnalytics(true);
+    try {
+      const { startDate, endDate } = getDateRange(period);
+      const data = await getAnalyticsData(startDate, endDate);
+      setAnalyticsData(data);
+    } catch (error) {
+      console.error('Failed to load analytics data:', error);
+      toast({
+        title: "오류",
+        description: "통계 데이터를 불러오는데 실패했습니다.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoadingAnalytics(false);
+    }
+  };
+
+  // Load analytics data when period changes
+  useEffect(() => {
+    loadAnalyticsData(analyticsPeriod);
+  }, [analyticsPeriod]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
       {/* Back to Home Button */}
@@ -385,7 +421,7 @@ export default function AdminPage() {
         </div>
 
         <Tabs defaultValue="videos" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-white/10 border-white/20">
+          <TabsList className="grid w-full grid-cols-4 bg-white/10 border-white/20">
             <TabsTrigger value="videos" className="text-white data-[state=active]:bg-white/20">
               영상 관리
             </TabsTrigger>
@@ -395,6 +431,10 @@ export default function AdminPage() {
             <TabsTrigger value="channel" className="text-white data-[state=active]:bg-white/20">
               <Users className="w-4 h-4 mr-2" />
               채널 관리
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="text-white data-[state=active]:bg-white/20">
+              <BarChart3 className="w-4 h-4 mr-2" />
+              접속 통계
             </TabsTrigger>
           </TabsList>
 
@@ -919,8 +959,198 @@ export default function AdminPage() {
               </CardContent>
             </Card>
           </TabsContent>
+
+          <TabsContent value="analytics" className="mt-8">
+            <div className="space-y-6">
+              {/* Header */}
+              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5" />
+                    사이트 접속 통계
+                  </CardTitle>
+                </CardHeader>
+              </Card>
+
+              {/* Period Selection */}
+              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+                <CardContent className="pt-6">
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {(['daily', 'weekly', 'monthly', 'yearly'] as const).map((period) => (
+                      <Button
+                        key={period}
+                        size="sm"
+                        variant={analyticsPeriod === period ? "default" : "outline"}
+                        onClick={() => setAnalyticsPeriod(period)}
+                        className={analyticsPeriod === period 
+                          ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                          : "border-white/20 text-white hover:bg-white/10"
+                        }
+                      >
+                        {period === 'daily' ? '일간' : 
+                         period === 'weekly' ? '주간' : 
+                         period === 'monthly' ? '월간' : '연간'}
+                      </Button>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant={chartType === 'line' ? "default" : "outline"}
+                      onClick={() => setChartType('line')}
+                      className={chartType === 'line' 
+                        ? "bg-purple-600 hover:bg-purple-700 text-white" 
+                        : "border-white/20 text-white hover:bg-white/10"
+                      }
+                    >
+                      <TrendingUp className="w-4 h-4 mr-1" />
+                      라인 차트
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={chartType === 'bar' ? "default" : "outline"}
+                      onClick={() => setChartType('bar')}
+                      className={chartType === 'bar' 
+                        ? "bg-purple-600 hover:bg-purple-700 text-white" 
+                        : "border-white/20 text-white hover:bg-white/10"
+                      }
+                    >
+                      <BarChart3 className="w-4 h-4 mr-1" />
+                      막대 차트
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Chart */}
+              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+                <CardContent className="pt-6">
+                  {isLoadingAnalytics ? (
+                    <div className="flex items-center justify-center h-96">
+                      <div className="text-center">
+                        <div className="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+                        <p className="text-white">통계 데이터를 불러오는 중...</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <AnalyticsChart 
+                      visits={analyticsData.visits} 
+                      period={analyticsPeriod} 
+                      chartType={chartType} 
+                    />
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Statistics Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Total Visits */}
+                <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+                  <CardHeader>
+                    <CardTitle className="text-white text-lg">총 접속 수</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-3xl font-bold text-blue-300">
+                      {analyticsData.totalVisits.toLocaleString()}명
+                    </div>
+                    <p className="text-blue-200 text-sm mt-2">
+                      선택된 기간 동안의 총 방문자 수
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* Country Statistics */}
+                <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+                  <CardHeader>
+                    <CardTitle className="text-white text-lg">국가별 접속 현황</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {analyticsData.countryStats.length > 0 ? (
+                      <div className="space-y-3">
+                        {analyticsData.countryStats.slice(0, 5).map((stat, index) => (
+                          <div key={stat.country} className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg">
+                                {getCountryFlag(stat.countryCode)}
+                              </span>
+                              <span className="text-white text-sm">{stat.country}</span>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-blue-300 font-medium">
+                                {stat.percentage.toFixed(1)}%
+                              </div>
+                              <div className="text-blue-200 text-xs">
+                                {stat.count}명
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        {analyticsData.countryStats.length > 5 && (
+                          <div className="text-blue-200 text-xs mt-2">
+                            +{analyticsData.countryStats.length - 5}개 국가 더보기
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-blue-200 text-sm">
+                        선택된 기간에 접속 데이터가 없습니다.
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Firebase Setup Notice */}
+              <Card className="bg-yellow-500/10 border border-yellow-500/20">
+                <CardContent className="pt-6">
+                  <div className="flex items-start gap-3">
+                    <Settings className="w-5 h-5 text-yellow-300 mt-0.5" />
+                    <div>
+                      <h3 className="text-yellow-200 font-medium mb-2">Firebase 설정 필요</h3>
+                      <p className="text-yellow-100 text-sm mb-3">
+                        접속 통계 기능을 사용하려면 Firebase 프로젝트 설정이 필요합니다.
+                      </p>
+                      <div className="text-yellow-100 text-sm space-y-1">
+                        <p>• Firebase 콘솔에서 새 프로젝트 생성</p>
+                        <p>• Firestore 데이터베이스 활성화</p>
+                        <p>• 환경 변수에 Firebase 설정 추가</p>
+                      </div>
+                      <Button
+                        size="sm"
+                        className="mt-3 bg-yellow-600 hover:bg-yellow-700 text-white"
+                        onClick={() => window.open('https://console.firebase.google.com/', '_blank')}
+                      >
+                        Firebase 콘솔 열기
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
         </Tabs>
       </div>
     </div>
   );
+}
+
+// Helper function to get country flag emoji
+function getCountryFlag(countryCode: string): string {
+  if (countryCode === 'XX' || !countryCode) return '🌍';
+  
+  const flagMap: Record<string, string> = {
+    'KR': '🇰🇷',
+    'US': '🇺🇸',
+    'JP': '🇯🇵',
+    'CN': '🇨🇳',
+    'GB': '🇬🇧',
+    'DE': '🇩🇪',
+    'FR': '🇫🇷',
+    'CA': '🇨🇦',
+    'AU': '🇦🇺',
+    'IN': '🇮🇳',
+  };
+  
+  return flagMap[countryCode] || '🌍';
 }
