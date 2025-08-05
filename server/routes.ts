@@ -56,16 +56,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve static thumbnail files
   app.use('/uploads', express.static('uploads'));
 
+  // Store admin password (in production, use database)
+  let adminPassword = '@2dbflWkd';
+
   // Admin authentication endpoint
   app.post('/api/admin/auth', (req, res) => {
     const { password } = req.body;
     
-    if (password === '@2dbflWkd') {
+    if (password === adminPassword) {
       req.session!.isAdmin = true;
       res.json({ success: true });
     } else {
       res.status(401).json({ error: '비밀번호가 올바르지 않습니다' });
     }
+  });
+
+  // Change admin password endpoint
+  app.post('/api/admin/change-password', isAdminAuthenticated, (req, res) => {
+    const { newPassword } = req.body;
+    
+    if (!newPassword || newPassword.length < 4) {
+      return res.status(400).json({ error: '비밀번호는 최소 4자 이상이어야 합니다' });
+    }
+    
+    adminPassword = newPassword;
+    
+    // Clear current session to force re-login
+    req.session!.isAdmin = false;
+    
+    res.json({ 
+      success: true, 
+      message: '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.' 
+    });
   });
 
   // Admin status check endpoint

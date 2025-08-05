@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Trash2, Plus, Eye, ArrowLeft, Edit, Settings, Upload, X } from "lucide-react";
+import { Trash2, Plus, Eye, ArrowLeft, Edit, Settings, Upload, X, Users, Key } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 
@@ -22,6 +22,11 @@ export default function AdminPage() {
   const [showSiteSettings, setShowSiteSettings] = useState(false);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Password change states
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   // Fetch all videos
   const { data: videos = [], isLoading } = useQuery<Video[]>({
@@ -132,6 +137,31 @@ export default function AdminPage() {
       toast({
         title: "오류",
         description: "설정 변경에 실패했습니다.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Password change mutation
+  const changePasswordMutation = useMutation({
+    mutationFn: (passwordData: { newPassword: string }) => 
+      apiRequest("/api/admin/change-password", "POST", passwordData),
+    onSuccess: () => {
+      setNewPassword("");
+      setConfirmPassword("");
+      toast({
+        title: "성공",
+        description: "비밀번호가 변경되었습니다. 새 비밀번호로 다시 로그인해주세요.",
+      });
+      // Redirect to home page after 2 seconds
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "오류",
+        description: error.message || "비밀번호 변경에 실패했습니다.",
         variant: "destructive",
       });
     },
@@ -301,6 +331,38 @@ export default function AdminPage() {
     }
   };
 
+  // Handle password change
+  const handlePasswordChange = () => {
+    if (!newPassword) {
+      toast({
+        title: "오류",
+        description: "새 비밀번호를 입력해주세요.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast({
+        title: "오류", 
+        description: "새 비밀번호가 일치하지 않습니다.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (newPassword.length < 4) {
+      toast({
+        title: "오류",
+        description: "비밀번호는 최소 4자 이상이어야 합니다.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    changePasswordMutation.mutate({ newPassword });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
       {/* Back to Home Button */}
@@ -323,12 +385,16 @@ export default function AdminPage() {
         </div>
 
         <Tabs defaultValue="videos" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-white/10 border-white/20">
+          <TabsList className="grid w-full grid-cols-3 bg-white/10 border-white/20">
             <TabsTrigger value="videos" className="text-white data-[state=active]:bg-white/20">
               영상 관리
             </TabsTrigger>
             <TabsTrigger value="settings" className="text-white data-[state=active]:bg-white/20">
               사이트 설정
+            </TabsTrigger>
+            <TabsTrigger value="channel" className="text-white data-[state=active]:bg-white/20">
+              <Users className="w-4 h-4 mr-2" />
+              채널 관리
             </TabsTrigger>
           </TabsList>
 
@@ -777,6 +843,79 @@ export default function AdminPage() {
                     </form>
                   </Form>
                 )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="channel" className="mt-8">
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Key className="w-5 h-5" />
+                  비밀번호 변경
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  <p className="text-blue-200">
+                    관리자 패널 접근을 위한 비밀번호를 변경할 수 있습니다.
+                  </p>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-white font-medium mb-2">
+                        새 비밀번호
+                      </label>
+                      <Input
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="새 비밀번호를 입력하세요"
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-white font-medium mb-2">
+                        새 비밀번호 확인
+                      </label>
+                      <Input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="새 비밀번호를 다시 입력하세요"
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                      />
+                    </div>
+                    
+                    <div className="flex gap-4">
+                      <Button
+                        onClick={handlePasswordChange}
+                        disabled={changePasswordMutation.isPending || !newPassword || !confirmPassword}
+                        className="bg-blue-600 hover:bg-blue-700 text-white"
+                      >
+                        {changePasswordMutation.isPending ? "변경 중..." : "비밀번호 변경"}
+                      </Button>
+                      
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setNewPassword("");
+                          setConfirmPassword("");
+                        }}
+                        className="border-white/20 text-white hover:bg-white/10"
+                      >
+                        취소
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
+                    <p className="text-yellow-200 text-sm">
+                      <strong>주의:</strong> 비밀번호를 변경하면 기존 세션이 무효화되어 다시 로그인해야 합니다.
+                    </p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
