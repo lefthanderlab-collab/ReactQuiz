@@ -193,7 +193,7 @@ export default function Home() {
             <p className="text-xl text-white/90 font-semibold mb-4">
               {siteSettings?.profileTitle || "Film Director & Video Creator"}
             </p>
-            <p className="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto">
+            <p className="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto whitespace-pre-line">
               {siteSettings?.profileDescription || "창의적인 영상으로 스토리를 전달합니다. 브랜드의 본질을 담은                             영상 콘텐츠를 통해 감동과 메세지를 전달하는 비디오 디자이너입니다."}
             </p>
           </div>
@@ -351,7 +351,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
               {siteSettings?.contactTitle || "연락하기"}
             </h2>
-            <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
+            <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto whitespace-pre-line">
               {siteSettings?.contactDescription || "프로젝트 문의나 협업 제안이 있으시면 언제든지 연락주세요. 창의적인 영상 제작을 통해 브랜드의 스토리를 함께 만들어가겠습니다."}
             </p>
           </div>
