@@ -347,10 +347,11 @@ export default function Home() {
         {/* Contact Section */}
         <div ref={contactRef} className="glass-surface rounded-3xl p-8 mb-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">연락하기</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              {siteSettings?.contactTitle || "연락하기"}
+            </h2>
             <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
-              프로젝트 문의나 협업 제안이 있으시면 언제든지 연락주세요.<br/>
-              창의적인 영상 제작을 통해 브랜드의 스토리를 함께 만들어가겠습니다.
+              {siteSettings?.contactDescription || "프로젝트 문의나 협업 제안이 있으시면 언제든지 연락주세요. 창의적인 영상 제작을 통해 브랜드의 스토리를 함께 만들어가겠습니다."}
             </p>
           </div>
           
