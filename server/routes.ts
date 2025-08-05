@@ -1,10 +1,61 @@
 import type { Express } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 import { storage } from "./storage";
 import { insertContactSchema, insertVideoSchema, insertSiteSettingsSchema } from "@shared/schema";
 import { z } from "zod";
 
+// Configure multer for thumbnail uploads
+const storage_multer = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = 'uploads/thumbnails';
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'thumbnail-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage_multer,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed!'));
+    }
+  }
+});
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve static thumbnail files
+  app.use('/uploads', express.static('uploads'));
+
+  // Upload thumbnail endpoint
+  app.post('/api/upload-thumbnail', upload.single('thumbnail'), (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+      }
+      
+      const thumbnailUrl = `/uploads/thumbnails/${req.file.filename}`;
+      res.json({ thumbnailUrl });
+    } catch (error) {
+      console.error('Thumbnail upload error:', error);
+      res.status(500).json({ error: 'Failed to upload thumbnail' });
+    }
+  });
+
   // Get all videos
   app.get("/api/videos", async (req, res) => {
     try {

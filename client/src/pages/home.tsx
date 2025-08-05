@@ -234,7 +234,7 @@ export default function Home() {
               <div className="aspect-video relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
                 {/* Thumbnail Image */}
                 <img
-                  src={getVideoThumbnail(video.vimeoUrl, video.title)}
+                  src={video.thumbnailUrl || getVideoThumbnail(video.vimeoUrl, video.title)}
                   alt={video.title}
                   className={`w-full h-full object-cover transition-opacity duration-300 ${
                     playingVideo === video.id ? 'opacity-0' : 'opacity-100'

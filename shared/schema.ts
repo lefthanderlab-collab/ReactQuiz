@@ -9,6 +9,7 @@ export const videos = pgTable("videos", {
   description: text("description").notNull(),
   vimeoUrl: text("vimeo_url").notNull(),
   category: text("category").notNull(),
+  thumbnailUrl: text("thumbnail_url"),
   isFeatured: text("is_featured").notNull().default("false"),
   createdAt: timestamp("created_at").defaultNow(),
 });

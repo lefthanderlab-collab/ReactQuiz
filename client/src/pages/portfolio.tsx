@@ -186,7 +186,7 @@ export default function Portfolio() {
                 <div className="aspect-video relative rounded-2xl overflow-hidden mb-4">
                   {/* Thumbnail Image */}
                   <img
-                    src={getVideoThumbnail(video.vimeoUrl, video.title)}
+                    src={video.thumbnailUrl || getVideoThumbnail(video.vimeoUrl, video.title)}
                     alt={video.title}
                     className={`w-full h-full object-cover transition-opacity duration-300 ${
                       playingVideo === video.id ? 'opacity-0' : 'opacity-100'

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Video, InsertVideo, SiteSettings, InsertSiteSettings } from "@shared/schema";
@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Trash2, Plus, Eye, ArrowLeft, Edit, Settings } from "lucide-react";
+import { Trash2, Plus, Eye, ArrowLeft, Edit, Settings, Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 
@@ -20,6 +20,8 @@ export default function AdminPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingVideo, setEditingVideo] = useState<Video | null>(null);
   const [showSiteSettings, setShowSiteSettings] = useState(false);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Fetch all videos
   const { data: videos = [], isLoading } = useQuery<Video[]>({
@@ -159,11 +161,44 @@ export default function AdminPage() {
     },
   });
 
-  const onSubmit = (data: InsertVideo) => {
+  const onSubmit = async (data: InsertVideo) => {
+    let thumbnailUrl = editingVideo?.thumbnailUrl || null;
+    
+    // If there's a new thumbnail preview, upload it
+    if (thumbnailPreview && fileInputRef.current?.files?.[0]) {
+      const file = fileInputRef.current.files[0];
+      const formData = new FormData();
+      formData.append('thumbnail', file);
+      
+      try {
+        const response = await fetch('/api/upload-thumbnail', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          thumbnailUrl = result.thumbnailUrl;
+        }
+      } catch (error) {
+        console.error('Thumbnail upload failed:', error);
+        toast({
+          title: "경고",
+          description: "썸네일 업로드에 실패했지만 영상은 저장됩니다.",
+          variant: "destructive",
+        });
+      }
+    }
+
+    const videoData = {
+      ...data,
+      thumbnailUrl,
+    };
+
     if (editingVideo) {
-      updateVideoMutation.mutate({ id: editingVideo.id, ...data });
+      updateVideoMutation.mutate({ id: editingVideo.id, ...videoData });
     } else {
-      createVideoMutation.mutate(data);
+      createVideoMutation.mutate(videoData);
     }
   };
 
@@ -199,11 +234,41 @@ export default function AdminPage() {
   const handleCancelEdit = () => {
     setEditingVideo(null);
     setShowForm(false);
+    setThumbnailPreview(null);
     form.reset();
   };
 
+  // Handle thumbnail upload
+  const handleThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setThumbnailPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Remove thumbnail preview
+  const removeThumbnailPreview = () => {
+    setThumbnailPreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   // Function to get video thumbnail URL
-  const getVideoThumbnail = (url: string, title: string = "Video Thumbnail") => {
+  const getVideoThumbnail = (video: Video) => {
+    // Use custom thumbnail if available
+    if (video.thumbnailUrl) {
+      return video.thumbnailUrl;
+    }
+    
+    // Fall back to auto-generated thumbnails
+    const url = video.vimeoUrl;
+    const title = video.title;
+    
     if (url.includes('youtube.com/watch?v=')) {
       const videoId = url.split('v=')[1].split('&')[0];
       return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
@@ -363,6 +428,54 @@ export default function AdminPage() {
                     )}
                   />
 
+                  {/* Thumbnail Upload Section */}
+                  <div className="space-y-3">
+                    <label className="text-white font-medium">썸네일 이미지</label>
+                    
+                    {/* Current thumbnail or preview */}
+                    {(thumbnailPreview || (editingVideo?.thumbnailUrl)) && (
+                      <div className="relative inline-block">
+                        <img
+                          src={thumbnailPreview || editingVideo?.thumbnailUrl || ''}
+                          alt="썸네일 미리보기"
+                          className="w-32 h-20 object-cover rounded-lg border border-white/20"
+                        />
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="destructive"
+                          onClick={removeThumbnailPreview}
+                          className="absolute -top-2 -right-2 w-6 h-6 p-0 rounded-full"
+                        >
+                          <X className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    )}
+                    
+                    {/* Upload button */}
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="border-white/20 text-white hover:bg-white/10"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        썸네일 업로드
+                      </Button>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleThumbnailUpload}
+                        className="hidden"
+                      />
+                    </div>
+                    <p className="text-xs text-blue-200">
+                      썸네일을 업로드하지 않으면 YouTube/Vimeo에서 자동으로 생성됩니다.
+                    </p>
+                  </div>
+
                   <div className="flex gap-4">
                     <Button
                       type="submit"
@@ -412,7 +525,7 @@ export default function AdminPage() {
                       onClick={() => window.open(video.vimeoUrl, '_blank')}
                     >
                       <img
-                        src={getVideoThumbnail(video.vimeoUrl, video.title)}
+                        src={getVideoThumbnail(video)}
                         alt={video.title}
                         className="w-full h-full object-cover"
                         onError={(e) => {
