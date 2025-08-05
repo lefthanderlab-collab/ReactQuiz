@@ -150,7 +150,7 @@ export default function Portfolio() {
             </Button>
           </Link>
           
-          <h1 className="font-bold text-white text-[24px]">
+          <h1 className="font-bold text-white text-[24px] text-center flex-1">
             VIEW ALL
           </h1>
           
@@ -163,7 +163,7 @@ export default function Portfolio() {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className="px-4 py-2 rounded-full transition-all duration-200 glass-card hover:bg-white/30 text-[#737373] ml-[2px] mr-[2px] pt-[9px] pb-[9px] font-bold text-[16px]"
+              className="px-2 md:px-4 py-1 md:py-2 rounded-full transition-all duration-200 glass-card hover:bg-white/30 text-[#737373] ml-[1px] md:ml-[2px] mr-[1px] md:mr-[2px] pt-[2px] md:pt-[9px] pb-[2px] md:pb-[9px] font-bold text-[12px] md:text-[16px]"
             >
               {category === "all" ? "전체" : category}
             </button>
