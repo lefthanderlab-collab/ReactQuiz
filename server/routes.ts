@@ -141,6 +141,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Toggle video featured status
+  app.patch("/api/videos/:id/featured", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { isFeatured } = req.body;
+      
+      const video = await storage.getVideo(id);
+      if (!video) {
+        return res.status(404).json({ message: "Video not found" });
+      }
+
+      const updatedVideo = await storage.updateVideo(id, {
+        ...video,
+        isFeatured: isFeatured ? "true" : "false"
+      });
+      
+      res.json(updatedVideo);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update video featured status" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

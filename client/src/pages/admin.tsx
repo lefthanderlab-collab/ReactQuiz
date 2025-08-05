@@ -115,6 +115,26 @@ export default function AdminPage() {
     },
   });
 
+  // Toggle featured status mutation
+  const toggleFeaturedMutation = useMutation({
+    mutationFn: ({ id, isFeatured }: { id: string; isFeatured: boolean }) => 
+      apiRequest(`/api/videos/${id}/featured`, "PATCH", { isFeatured }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/videos"] });
+      toast({
+        title: "성공",
+        description: "홈페이지 노출 설정이 변경되었습니다.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "오류",
+        description: "설정 변경에 실패했습니다.",
+        variant: "destructive",
+      });
+    },
+  });
+
   // Form setup
   const form = useForm<InsertVideo>({
     resolver: zodResolver(insertVideoSchema),
@@ -443,6 +463,26 @@ export default function AdminPage() {
                           생성일: {new Date(video.createdAt).toLocaleDateString('ko-KR')}
                         </p>
                       )}
+                    </div>
+
+                    {/* Featured Status */}
+                    <div className="flex items-center justify-between bg-white/5 rounded-lg p-2">
+                      <span className="text-sm text-blue-200">홈페이지 노출:</span>
+                      <Button
+                        size="sm"
+                        onClick={() => toggleFeaturedMutation.mutate({ 
+                          id: video.id, 
+                          isFeatured: video.isFeatured !== "true" 
+                        })}
+                        className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
+                          video.isFeatured === "true"
+                            ? 'bg-green-500/80 hover:bg-green-600 text-white'
+                            : 'bg-gray-500/80 hover:bg-gray-600 text-white'
+                        }`}
+                        disabled={toggleFeaturedMutation.isPending}
+                      >
+                        {video.isFeatured === "true" ? "노출됨" : "미노출"}
+                      </Button>
                     </div>
 
                     <div className="flex gap-2">

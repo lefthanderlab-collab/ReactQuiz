@@ -217,7 +217,11 @@ export default function Home() {
 
         {/* Video Gallery - Interactive Hover Player */}
         <div ref={videoGridRef} className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
-          {portfolioImages.slice(0, 4).map((video, index) => (
+          {(() => {
+            const featuredVideos = portfolioImages.filter(video => video.isFeatured === "true");
+            const videosToShow = featuredVideos.length > 0 ? featuredVideos : portfolioImages.slice(0, 4);
+            return videosToShow.slice(0, 4);
+          })().map((video, index) => (
             <div 
               key={video.id} 
               className="group cursor-pointer relative"
