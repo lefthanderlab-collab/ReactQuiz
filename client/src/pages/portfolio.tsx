@@ -176,122 +176,130 @@ export default function Portfolio() {
         </div>
 
         {/* Projects Grid - Interactive Hover Player */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {filteredVideos.map((video) => (
             <div 
               key={video.id}
-              className="group cursor-pointer relative"
+              className="group cursor-pointer"
               onMouseEnter={() => setHoveredVideo(video.id)}
               onMouseLeave={() => {
                 setHoveredVideo(null);
                 setPlayingVideo(null);
               }}
             >
-              <div className="aspect-video relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.05]">
-                {/* Thumbnail Image */}
-                <img
-                  src={getVideoThumbnail(video.vimeoUrl, video.title)}
-                  alt={video.title}
-                  className={`w-full h-full object-cover transition-opacity duration-300 ${
-                    playingVideo === video.id ? 'opacity-0' : 'opacity-100'
-                  }`}
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = `data:image/svg+xml;base64,${btoa(`
-                      <svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
-                        <rect width="480" height="270" fill="#1a202c"/>
-                        <text x="240" y="120" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="16" font-weight="bold">
-                          ${video.title}
-                        </text>
-                        <circle cx="240" cy="160" r="25" fill="#4a5568"/>
-                        <polygon points="230,150 230,170 250,160" fill="#e2e8f0"/>
-                      </svg>
-                    `)}`;
-                  }}
-                />
-
-                {/* Video Player (shown when playing) */}
-                {playingVideo === video.id && (
-                  <iframe
-                    src={getEmbedUrl(video.vimeoUrl)}
-                    className="absolute inset-0 w-full h-full"
-                    frameBorder="0"
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                    title={video.title}
+              <div className="glass-surface rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
+                <div className="aspect-video relative rounded-2xl overflow-hidden mb-4">
+                  {/* Thumbnail Image */}
+                  <img
+                    src={getVideoThumbnail(video.vimeoUrl, video.title)}
+                    alt={video.title}
+                    className={`w-full h-full object-cover transition-opacity duration-300 ${
+                      playingVideo === video.id ? 'opacity-0' : 'opacity-100'
+                    }`}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = `data:image/svg+xml;base64,${btoa(`
+                        <svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
+                          <rect width="480" height="270" fill="#1a202c"/>
+                          <text x="240" y="120" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="16" font-weight="bold">
+                            ${video.title}
+                          </text>
+                          <circle cx="240" cy="160" r="25" fill="#4a5568"/>
+                          <polygon points="230,150 230,170 250,160" fill="#e2e8f0"/>
+                        </svg>
+                      `)}`;
+                    }}
                   />
-                )}
 
-                {/* Play button overlay (shown on hover) */}
-                {hoveredVideo === video.id && playingVideo !== video.id && (
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleVideoPlay(video.id);
-                      }}
-                      className="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform duration-200"
-                    >
-                      <Play className="w-6 h-6 text-white ml-1" />
-                    </button>
-                  </div>
-                )}
+                  {/* Video Player (shown when playing) */}
+                  {playingVideo === video.id && (
+                    <iframe
+                      src={getEmbedUrl(video.vimeoUrl)}
+                      className="absolute inset-0 w-full h-full"
+                      frameBorder="0"
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      allowFullScreen
+                      title={video.title}
+                    />
+                  )}
 
-                {/* Video Controls (shown when hovered and playing) */}
-                {hoveredVideo === video.id && playingVideo === video.id && (
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
-                    {/* Progress Bar */}
-                    <div className="flex items-center space-x-2 mb-2">
-                      <div className="flex-1 bg-white/30 h-1 rounded-full">
-                        <div 
-                          className="bg-red-600 h-1 rounded-full transition-all"
-                          style={{ width: `${videoProgress[video.id] || 0}%` }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Control Buttons */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-1">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleVideoPause(video.id);
-                          }}
-                          className="w-6 h-6 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
-                        >
-                          <Pause className="w-3 h-3 text-white" />
-                        </button>
-                        
-                        <div className="flex items-center space-x-1">
-                          <Volume2 className="w-3 h-3 text-white" />
-                          <div className="w-12 bg-white/30 h-1 rounded-full">
-                            <div 
-                              className="bg-white h-1 rounded-full"
-                              style={{ width: `${videoVolume[video.id] || 100}%` }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
+                  {/* Play button overlay (shown on hover) */}
+                  {hoveredVideo === video.id && playingVideo !== video.id && (
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          window.open(video.vimeoUrl, '_blank');
+                          handleVideoPlay(video.id);
                         }}
-                        className="w-6 h-6 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
+                        className="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform duration-200"
                       >
-                        <ExternalLink className="w-3 h-3 text-white" />
+                        <Play className="w-6 h-6 text-white ml-1" />
                       </button>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Category badge */}
-                <div className="absolute top-2 left-2">
-                  <span className={`text-xs px-2 py-1 rounded-full text-white font-medium ${getCategoryColor(video.category)} shadow-lg`}>
-                    {video.category}
-                  </span>
+                  {/* Video Controls (shown when hovered and playing) */}
+                  {hoveredVideo === video.id && playingVideo === video.id && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                      {/* Progress Bar */}
+                      <div className="flex items-center space-x-2 mb-2">
+                        <div className="flex-1 bg-white/30 h-1 rounded-full">
+                          <div 
+                            className="bg-red-600 h-1 rounded-full transition-all"
+                            style={{ width: `${videoProgress[video.id] || 0}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Control Buttons */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-1">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleVideoPause(video.id);
+                            }}
+                            className="w-6 h-6 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
+                          >
+                            <Pause className="w-3 h-3 text-white" />
+                          </button>
+                          
+                          <div className="flex items-center space-x-1">
+                            <Volume2 className="w-3 h-3 text-white" />
+                            <div className="w-12 bg-white/30 h-1 rounded-full">
+                              <div 
+                                className="bg-white h-1 rounded-full"
+                                style={{ width: `${videoVolume[video.id] || 100}%` }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.open(video.vimeoUrl, '_blank');
+                          }}
+                          className="w-6 h-6 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
+                        >
+                          <ExternalLink className="w-3 h-3 text-white" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Category badge */}
+                  <div className="absolute top-2 left-2">
+                    <span className={`text-xs px-2 py-1 rounded-full text-white font-medium ${getCategoryColor(video.category)} shadow-lg`}>
+                      {video.category}
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Video Info */}
+                <div className="mt-4">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{video.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{video.description}</p>
                 </div>
               </div>
             </div>
