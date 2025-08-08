@@ -133,7 +133,7 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen gradient-mesh">
       {/* Admin Settings Button */}
-      <div className="fixed top-6 right-6 z-50">
+      <div className="fixed top-6 right-6 z-50 admin-button-mobile">
         <Button
           size="sm"
           className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"

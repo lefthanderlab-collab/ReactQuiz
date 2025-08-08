@@ -198,4 +198,37 @@
       0 4px 16px 0 rgba(31, 38, 135, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.7);
   }
+
+  /* Mobile styles - reduce all text to 70% */
+  @media (max-width: 768px) {
+    body {
+      font-size: 70%;
+    }
+    
+    /* Fixed admin button at bottom */
+    .admin-button-mobile {
+      position: fixed !important;
+      bottom: 20px !important;
+      right: 20px !important;
+      top: auto !important;
+      z-index: 60 !important;
+    }
+    
+    /* Ensure all text elements follow the 70% rule */
+    h1, h2, h3, h4, h5, h6, p, span, div, button, input, textarea, label {
+      font-size: inherit;
+    }
+    
+    /* Specific overrides for text classes that might not inherit */
+    .text-xs { font-size: 0.525rem; } /* 70% of 0.75rem */
+    .text-sm { font-size: 0.616rem; } /* 70% of 0.875rem */
+    .text-base { font-size: 0.7rem; } /* 70% of 1rem */
+    .text-lg { font-size: 0.84rem; } /* 70% of 1.2rem */
+    .text-xl { font-size: 0.875rem; } /* 70% of 1.25rem */
+    .text-2xl { font-size: 1.05rem; } /* 70% of 1.5rem */
+    .text-3xl { font-size: 1.316rem; } /* 70% of 1.88rem */
+    .text-4xl { font-size: 1.596rem; } /* 70% of 2.28rem */
+    .text-5xl { font-size: 2.1rem; } /* 70% of 3rem */
+    .text-6xl { font-size: 2.8rem; } /* 70% of 4rem */
+  }
 }
