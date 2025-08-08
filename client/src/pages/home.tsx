@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Video, SiteSettings } from "@shared/schema";
-import { MessageCircle, Send, Instagram, Youtube, Mail, Phone, Settings, Play, Pause, Volume2, ExternalLink } from "lucide-react";
+import { Send, Instagram, Youtube, Mail, Phone, Settings, Play, Pause, Volume2, ExternalLink } from "lucide-react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -433,14 +433,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/* Floating Contact Button */}
-      <button
-        onClick={() => setShowContactForm(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-50 transform hover:scale-110"
-        title="연락하기"
-      >
-        <MessageCircle className="w-6 h-6" />
-      </button>
+      
       {/* Contact Form Modal */}
       <ContactModal
         isOpen={showContactForm}
