@@ -1,25 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Video, SiteSettings } from "@shared/schema";
-import { Send, Instagram, Youtube, Mail, Phone, Settings, Play, Pause, Volume2, ExternalLink } from "lucide-react";
+import { Instagram, Youtube, Mail, Phone, Settings, Play, Pause, Volume2, ExternalLink } from "lucide-react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import ContactModal from "../components/contact-modal";
+
 import AdminAuthModal from "../components/admin-auth-modal";
 
 export default function Home() {
-  const [showContactForm, setShowContactForm] = useState(false);
   const [showAdminAuth, setShowAdminAuth] = useState(false);
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    message: ""
-  });
   
   // Animation states
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -31,8 +21,7 @@ export default function Home() {
   const [videoDuration, setVideoDuration] = useState<{[key: string]: number}>({});
   const [videoVolume, setVideoVolume] = useState<{[key: string]: number}>({});
   
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
+
 
   // Initial load animation - Apple style sequential entrance
   useEffect(() => {
@@ -51,49 +40,7 @@ export default function Home() {
     queryKey: ["/api/site-settings"],
   });
 
-  const contactMutation = useMutation({
-    mutationFn: async (formData: { name: string; email: string; message: string }) => {
-      const response = await fetch("/api/contacts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "메시지 전송 완료",
-        description: "메시지가 성공적으로 전송되었습니다. 빠른 시일 내에 답변드리겠습니다.",
-      });
-      setContactForm({ name: "", email: "", message: "" });
-      queryClient.invalidateQueries({ queryKey: ["/api/contacts"] });
-    },
-    onError: () => {
-      toast({
-        title: "전송 실패",
-        description: "메시지 전송에 실패했습니다. 다시 시도해주세요.",
-        variant: "destructive",
-      });
-    },
-  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!contactForm.name || !contactForm.email || !contactForm.message) {
-      toast({
-        title: "입력 오류",
-        description: "모든 필드를 입력해주세요.",
-        variant: "destructive",
-      });
-      return;
-    }
-    contactMutation.mutate(contactForm);
-  };
 
   // Function to get video thumbnail URL
   const getVideoThumbnail = (url: string, title: string) => {
@@ -356,89 +303,17 @@ export default function Home() {
             </p>
           </div>
           
-          {/* Contact Form */}
-          <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  이름 *
-                </label>
-                <Input
-                  type="text"
-                  value={contactForm.name}
-                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                  placeholder="이름을 입력해주세요"
-                  className="w-full"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  이메일 *
-                </label>
-                <Input
-                  type="email"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                  placeholder="이메일을 입력해주세요"
-                  className="w-full"
-                  required
-                />
-              </div>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                메시지 *
-              </label>
-              <Textarea
-                value={contactForm.message}
-                onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                placeholder="프로젝트에 대한 내용이나 문의사항을 자세히 적어주세요"
-                className="w-full h-32 resize-none"
-                required
-              />
-            </div>
-            
-            <div className="text-center">
-              <Button
-                type="submit"
-                disabled={contactMutation.isPending}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-10 py-4 rounded-full text-lg font-medium shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {contactMutation.isPending ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    전송 중...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5 mr-2" />
-                    메시지 보내기
-                  </>
-                )}
-              </Button>
-            </div>
-          </form>
-          
-          {/* Contact Info */}
-          <div className="mt-8 pt-8 border-t border-gray-200 text-center">
-            <div className="flex items-center justify-center gap-2">
-              <Mail className="w-4 h-4 text-blue-500" />
-              <span className="text-sm text-gray-600">
-                {siteSettings?.contactEmail || "oneglass@example.com"}
-              </span>
+          {/* Email Contact */}
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full">
+              <Mail className="w-5 h-5" />
+              <a href="mailto:h4n23@naver.com" className="text-lg font-medium hover:text-blue-200 transition-colors">
+                h4n23@naver.com
+              </a>
             </div>
           </div>
         </div>
       </div>
-      
-      {/* Contact Form Modal */}
-      <ContactModal
-        isOpen={showContactForm}
-        onClose={() => setShowContactForm(false)}
-      />
       
       {/* Admin Auth Modal */}
       <AdminAuthModal
