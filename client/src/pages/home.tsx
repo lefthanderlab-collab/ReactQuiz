@@ -305,9 +305,9 @@ export default function Home() {
           
           {/* Email Contact */}
           <div className="text-center">
-            <div className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full">
-              <Mail className="w-5 h-5" />
-              <a href="mailto:h4n23@naver.com" className="text-lg font-medium hover:text-blue-200 transition-colors">
+            <div className="flex items-center justify-center gap-2">
+              <Mail className="w-5 h-5 text-blue-500" />
+              <a href="mailto:h4n23@naver.com" className="text-lg text-gray-700 hover:text-blue-500 transition-colors">
                 h4n23@naver.com
               </a>
             </div>
