@@ -307,9 +307,9 @@ export default function Home() {
           <div className="text-center">
             <div className="flex items-center justify-center gap-2">
               <Mail className="w-5 h-5 text-blue-500" />
-              <a href="mailto:h4n23@naver.com" className="text-lg text-gray-700 hover:text-blue-500 transition-colors">
+              <span className="text-lg text-gray-700">
                 h4n23@naver.com
-              </a>
+              </span>
             </div>
           </div>
         </div>
