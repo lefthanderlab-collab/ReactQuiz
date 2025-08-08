@@ -731,7 +731,6 @@ export default function AdminPage() {
                               <FormControl>
                                 <Input
                                   {...field}
-                                  value={siteSettings?.profileName || field.value || ""}
                                   placeholder="프로필 이름을 입력하세요"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                                 />
@@ -750,7 +749,6 @@ export default function AdminPage() {
                               <FormControl>
                                 <Input
                                   {...field}
-                                  value={siteSettings?.profileTitle || field.value || ""}
                                   placeholder="예: 영화 감독, 비디오 디자이너"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                                 />
@@ -769,7 +767,6 @@ export default function AdminPage() {
                               <FormControl>
                                 <Textarea
                                   {...field}
-                                  value={siteSettings?.profileDescription || field.value || ""}
                                   placeholder="자신을 소개하는 내용을 입력하세요"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-h-[100px]"
                                 />
@@ -792,7 +789,6 @@ export default function AdminPage() {
                               <FormControl>
                                 <Input
                                   {...field}
-                                  value={siteSettings?.contactTitle || field.value || ""}
                                   placeholder="예: 문의하기, Contact"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                                 />
@@ -811,7 +807,6 @@ export default function AdminPage() {
                               <FormControl>
                                 <Textarea
                                   {...field}
-                                  value={siteSettings?.contactDescription || field.value || ""}
                                   placeholder="연락처 섹션에 표시될 설명을 입력하세요"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                                 />
@@ -830,7 +825,6 @@ export default function AdminPage() {
                               <FormControl>
                                 <Input
                                   {...field}
-                                  value={siteSettings?.contactEmail || field.value || ""}
                                   type="email"
                                   placeholder="contact@example.com"
                                   className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
