@@ -300,8 +300,8 @@ export default function Portfolio() {
                 
                 {/* Video Info */}
                 <div className="mt-4">
-                  <h3 className="text-xl font-bold mb-2 text-white">{video.title}</h3>
-                  <p className="text-white/80 text-sm leading-relaxed">{video.description}</p>
+                  <h3 className="text-xl font-bold mb-2 text-gray-700 dark:text-white">{video.title}</h3>
+                  <p className="text-gray-600 dark:text-white/80 text-sm leading-relaxed">{video.description}</p>
                 </div>
               </div>
             </div>
