@@ -145,7 +145,7 @@ export default function Portfolio() {
       </div>
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
-        <div className="flex items-center justify-center mb-8 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-6 shadow-lg relative">
+        <div className="flex items-center justify-center mb-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-6 shadow-lg relative">
           <Link href="/" className="absolute left-6">
             <Button 
               variant="ghost" 
@@ -168,8 +168,8 @@ export default function Portfolio() {
               onClick={() => setSelectedCategory(category)}
               className={`px-2 md:px-4 py-1 md:py-2 rounded-full transition-all duration-200 font-bold text-[12px] md:text-[16px] ml-[1px] md:ml-[2px] mr-[1px] md:mr-[2px] pt-[2px] md:pt-[9px] pb-[2px] md:pb-[9px] ${
                 selectedCategory === category 
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white' 
-                  : 'bg-gradient-to-r from-blue-500/20 to-purple-600/20 text-white hover:from-blue-500/40 hover:to-purple-600/40'
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg' 
+                  : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white/80 hover:text-white opacity-60 hover:opacity-100'
               }`}
             >
               {category === "all" ? "전체" : category}
