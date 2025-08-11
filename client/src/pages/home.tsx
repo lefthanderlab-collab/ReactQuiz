@@ -295,10 +295,10 @@ export default function Home() {
           style={{ transitionDelay: hasLoaded ? '1400ms' : '0ms' }}
         >
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
               {siteSettings?.contactTitle || "연락하기"}
             </h2>
-            <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto whitespace-pre-line">
+            <p className="text-gray-600 dark:text-gray-300 text-lg mb-8 max-w-2xl mx-auto whitespace-pre-line">
               {siteSettings?.contactDescription || "프로젝트 문의나 협업 제안이 있으시면 언제든지 연락주세요. 창의적인 영상 제작을 통해 브랜드의 스토리를 함께 만들어가겠습니다."}
             </p>
           </div>
@@ -307,7 +307,7 @@ export default function Home() {
           <div className="text-center">
             <div className="flex items-center justify-center gap-2">
               <Mail className="w-5 h-5 text-blue-500" />
-              <span className="text-lg text-gray-700">
+              <span className="text-lg text-gray-700 dark:text-gray-300">
                 h4n23@naver.com
               </span>
             </div>

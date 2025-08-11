@@ -84,12 +84,7 @@
   }
 
   .dark .gradient-mesh {
-    background: linear-gradient(135deg, 
-      rgb(17, 24, 39) 0%, 
-      rgb(31, 41, 55) 25%, 
-      rgb(55, 65, 81) 50%, 
-      rgb(75, 85, 99) 75%, 
-      rgb(107, 114, 128) 100%);
+    background: #000000;
   }
 
   .glass-morphism {
@@ -171,6 +166,16 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
+  .dark .glass-card {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
   .glass-surface {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
@@ -179,6 +184,16 @@
     box-shadow: 
       0 8px 32px 0 rgba(31, 38, 135, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+
+  .dark .glass-surface {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .gradient-mesh {
@@ -206,6 +221,23 @@
     box-shadow: 
       0 8px 32px 0 rgba(31, 38, 135, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  }
+
+  .dark .video-card-glass {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 4px 16px 0 rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .video-card-glass:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
   }
 
   .profile-card-glass {
