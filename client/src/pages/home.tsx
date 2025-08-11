@@ -128,7 +128,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Profile Introduction Section */}
         <div 
-          className={`bg-gradient-to-r from-blue-500 to-purple-600 dark:from-gray-800 dark:to-gray-700 rounded-3xl p-8 mb-8 shadow-lg transform transition-all duration-1000 ease-out ${
+          className={`bg-gradient-to-r from-blue-500 to-purple-600 dark:bg-black rounded-3xl p-8 mb-8 shadow-lg transform transition-all duration-1000 ease-out ${
             hasLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}
           style={{ transitionDelay: hasLoaded ? '200ms' : '0ms' }}
@@ -289,7 +289,7 @@ export default function Home() {
 
         {/* Contact Section */}
         <div 
-          className={`glass-surface rounded-3xl p-8 mb-8 transform transition-all duration-1000 ease-out ${
+          className={`glass-surface dark:bg-black rounded-3xl p-8 mb-8 transform transition-all duration-1000 ease-out ${
             hasLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}
           style={{ transitionDelay: hasLoaded ? '1400ms' : '0ms' }}
