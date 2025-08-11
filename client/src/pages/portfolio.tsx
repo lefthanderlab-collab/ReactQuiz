@@ -166,7 +166,11 @@ export default function Portfolio() {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className="px-2 md:px-4 py-1 md:py-2 rounded-full transition-all duration-200 glass-card hover:bg-white/30 text-[#737373] ml-[1px] md:ml-[2px] mr-[1px] md:mr-[2px] pt-[2px] md:pt-[9px] pb-[2px] md:pb-[9px] font-bold text-[12px] md:text-[16px]"
+              className={`px-2 md:px-4 py-1 md:py-2 rounded-full transition-all duration-200 font-bold text-[12px] md:text-[16px] ml-[1px] md:ml-[2px] mr-[1px] md:mr-[2px] pt-[2px] md:pt-[9px] pb-[2px] md:pb-[9px] ${
+                selectedCategory === category 
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white' 
+                  : 'bg-gradient-to-r from-blue-500/20 to-purple-600/20 text-white hover:from-blue-500/40 hover:to-purple-600/40'
+              }`}
             >
               {category === "all" ? "전체" : category}
             </button>
@@ -296,8 +300,8 @@ export default function Portfolio() {
                 
                 {/* Video Info */}
                 <div className="mt-4">
-                  <h3 className="text-xl font-bold mb-2 text-[#595959]">{video.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{video.description}</p>
+                  <h3 className="text-xl font-bold mb-2 text-white">{video.title}</h3>
+                  <p className="text-white/80 text-sm leading-relaxed">{video.description}</p>
                 </div>
               </div>
             </div>
