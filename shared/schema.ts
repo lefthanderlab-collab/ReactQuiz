@@ -30,6 +30,7 @@ export const siteSettings = pgTable("site_settings", {
   contactTitle: text("contact_title").notNull().default("연락하기"),
   contactDescription: text("contact_description").notNull().default("프로젝트 문의나 협업 제안이 있으시면 언제든지 연락주세요. 창의적인 영상 제작을 통해 브랜드의 스토리를 함께 만들어가겠습니다."),
   contactEmail: text("contact_email").notNull().default("oneglass@example.com"),
+  isDarkMode: text("is_dark_mode").notNull().default("false"),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 

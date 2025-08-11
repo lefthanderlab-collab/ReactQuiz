@@ -74,6 +74,36 @@
     overflow: hidden;
   }
 
+  .gradient-mesh {
+    background: linear-gradient(135deg, 
+      rgb(147, 51, 234) 0%, 
+      rgb(59, 130, 246) 25%, 
+      rgb(79, 70, 229) 50%, 
+      rgb(168, 85, 247) 75%, 
+      rgb(236, 72, 153) 100%);
+  }
+
+  .dark .gradient-mesh {
+    background: linear-gradient(135deg, 
+      rgb(17, 24, 39) 0%, 
+      rgb(31, 41, 55) 25%, 
+      rgb(55, 65, 81) 50%, 
+      rgb(75, 85, 99) 75%, 
+      rgb(107, 114, 128) 100%);
+  }
+
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .glass-morphism {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;

@@ -11,12 +11,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Trash2, Plus, Eye, ArrowLeft, Edit, Settings, Upload, X, Users, Key } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Trash2, Plus, Eye, ArrowLeft, Edit, Settings, Upload, X, Users, Key, Moon, Sun } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function AdminPage() {
   const { toast } = useToast();
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [showForm, setShowForm] = useState(false);
   const [editingVideo, setEditingVideo] = useState<Video | null>(null);
   const [showSiteSettings, setShowSiteSettings] = useState(false);
@@ -369,13 +372,13 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 dark:from-gray-900 dark:via-gray-800 dark:to-black text-white">
       {/* Back to Home Button */}
       <div className="fixed top-6 left-6 z-50">
         <Link href="/">
           <Button
             size="sm"
-            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+            className="bg-white/10 hover:bg-white/20 dark:bg-black/20 dark:hover:bg-black/30 backdrop-blur-sm border border-white/20 dark:border-white/10 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
             title="홈으로 돌아가기"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -707,7 +710,7 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="settings" className="mt-8">
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+            <Card className="bg-white/10 dark:bg-black/20 backdrop-blur-sm border-white/20 dark:border-white/10">
               <CardHeader>
                 <CardTitle className="text-white">사이트 설정</CardTitle>
               </CardHeader>
@@ -836,6 +839,31 @@ export default function AdminPage() {
                         />
                       </div>
 
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold text-white">테마 설정</h3>
+                        
+                        <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
+                          <div className="flex items-center gap-3">
+                            {isDarkMode ? (
+                              <Moon className="w-5 h-5 text-blue-400" />
+                            ) : (
+                              <Sun className="w-5 h-5 text-yellow-400" />
+                            )}
+                            <div>
+                              <p className="text-white font-medium">다크 모드</p>
+                              <p className="text-white/60 text-sm">
+                                {isDarkMode ? "어두운 테마가 적용됩니다" : "밝은 테마가 적용됩니다"}
+                              </p>
+                            </div>
+                          </div>
+                          <Switch
+                            checked={isDarkMode}
+                            onCheckedChange={toggleDarkMode}
+                            className="data-[state=checked]:bg-blue-600"
+                          />
+                        </div>
+                      </div>
+
                       <div className="flex gap-4">
                         <Button
                           type="submit"
@@ -853,7 +881,7 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="channel" className="mt-8">
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+            <Card className="bg-white/10 dark:bg-black/20 backdrop-blur-sm border-white/20 dark:border-white/10">
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-2">
                   <Key className="w-5 h-5" />

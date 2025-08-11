@@ -136,7 +136,7 @@ export default function Portfolio() {
       <div className="fixed top-6 right-6 z-50 admin-button-mobile">
         <Button
           size="sm"
-          className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+          className="bg-white/10 hover:bg-white/20 dark:bg-black/20 dark:hover:bg-black/30 backdrop-blur-sm border border-white/20 dark:border-white/10 text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
           title="영상 관리"
           onClick={() => setShowAdminAuth(true)}
         >
@@ -145,7 +145,7 @@ export default function Portfolio() {
       </div>
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
-        <div className="flex items-center justify-center mb-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-6 shadow-lg relative">
+        <div className="flex items-center justify-center mb-8 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-6 shadow-lg relative">
           <Link href="/" className="absolute left-6">
             <Button 
               variant="ghost" 
