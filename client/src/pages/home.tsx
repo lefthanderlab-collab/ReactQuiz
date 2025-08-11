@@ -289,7 +289,7 @@ export default function Home() {
 
         {/* Contact Section */}
         <div 
-          className={`glass-surface rounded-3xl p-8 mb-8 transform transition-all duration-1000 ease-out ${
+          className={`bg-gradient-to-r from-blue-500 to-purple-600 dark:bg-black rounded-3xl p-8 mb-8 shadow-lg transform transition-all duration-1000 ease-out ${
             hasLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}
           style={{ transitionDelay: hasLoaded ? '1400ms' : '0ms' }}
